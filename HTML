@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Macro Calculator</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function MacroCalculator() {
+      const [weight, setWeight] = useState('');
+      const [goal, setGoal] = useState('maintain');
+      const [weeklyChange, setWeeklyChange] = useState('0');
+      const [activityLevel, setActivityLevel] = useState('moderate');
+      const [macros, setMacros] = useState(null);
+
+      const calculateMacros = () => {
+        const bodyWeight = parseFloat(weight);
+        if (!bodyWeight || bodyWeight <= 0) return;
+
+        const activityMultipliers = {
+          sedentary: 13,
+          light: 14,
+          moderate: 15,
+          active: 16,
+          veryActive: 17
+        };
+        
+        const tdee = bodyWeight * activityMultipliers[activityLevel];
+        let targetCalories = tdee;
+        const weeklyChangeNum = parseFloat(weeklyChange);
+        
+        if (goal === 'lose') {
+          targetCalories = tdee - (weeklyChangeNum * 500);
+        } else if (goal === 'gain') {
+          targetCalories = tdee + (weeklyChangeNum * 300);
+        }
+        
+        const maxProteinFromCalories = (targetCalories * 0.40) / 4;
+        const protein = Math.min(bodyWeight, maxProteinFromCalories);
+        const proteinCapped = protein < bodyWeight;
+        const fat = bodyWeight * 0.35;
+        const proteinCals = protein * 4;
+        const fatCals = fat * 9;
+        const carbCals = targetCalories - proteinCals - fatCals;
+        const carbs = carbCals / 4;
+
+        setMacros({
+          calories: Math.round(targetCalories),
+          protein: Math.round(protein),
+          carbs: Math.round(carbs),
+          fat: Math.round(fat),
+          tdee: Math.round(tdee),
+          proteinCapped: proteinCapped,
+          proteinPercentage: Math.round((protein * 4 / targetCalories) * 100)
+        });
+      };
+
+      const getWeeklyOptions = () => {
+        if (goal === 'lose') return ['0', '0.5', '1', '1.5', '2'];
+        if (goal === 'gain') return ['0', '0.25', '0.5', '0.75', '1'];
+        return ['0'];
+      };
+
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-4xl">📊</span>
+                <h1 className="text-3xl font-bold text-gray-800">Macro Calculator</h1>
+              </div>
+
+              <div className="space-y-6">
+                <div>
+                  <label className="block text
