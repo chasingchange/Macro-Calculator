@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Macro Calculator</title>
+
+    <!-- Tailwind via CDN (easy embed-friendly styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      /* Prevent Notion iframe scroll weirdness */
+      html, body { height: 100%; }
+    </style>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+    <div class="max-w-2xl mx-auto">
+      <div class="bg-white rounded-2xl shadow-xl p-8">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center">
+            <!-- Simple inline icon (no dependencies) -->
+            <svg viewBox="0 0 24 24" class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+              <path d="M9 6h6"/>
+              <path d="M9 10h6"/>
+              <path d="M9 14h2"/>
+              <path d="M13 14h2"/>
+              <path d="M9 18h2"/>
+              <path d="M13 18h2"/>
+            </svg>
+          </div>
+          <h1 class="text-3xl font-bold text-gray-800">Macro Calculator</h1>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Body Weight -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Body Weight (lbs)</label>
+            <input
+              id="weight"
+              type="number"
+              inputmode="decimal"
+              placeholder="Enter your weight"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none transition"
+            />
+            <p id="weightError" class="hidden mt-2 text-sm text-red-600">Please enter a valid weight.</p>
+          </div>
+
+          <!-- Activity Level -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Activity Level</label>
+            <select
+              id="activityLevel"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none transition"
+            >
+              <option value="sedentary">Sedentary (little/no exercise)</option>
+              <option value="light">Light (1-3 days/week)</option>
+              <option value="moderate" selected>Moderate (3-5 days/week)</option>
+              <option value="active">Active (6-7 days/week)</option>
+              <option value="veryActive">Very Active (athlete/physical job)</option>
+            </select>
+          </div>
+
+          <!-- Goal -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-3">Goal</label>
+            <div class="grid grid-cols-3 gap-3">
+              <button
+                id="goalLose"
+                type="button"
+                class="goalBtn flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition border-gray-200 hover:border-gray-300"
+                data-goal="lose"
+              >
+                <span class="text-xl">📉</span>
+                <span class="text-sm font-medium">Lose Fat</span>
+              </button>
+
+              <button
+                id="goalMaintain"
+                type="button"
+                class="goalBtn flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition border-indigo-500 bg-indigo-50"
+                data-goal="maintain"
+              >
+                <span class="text-xl">➖</span>
+                <span class="text-sm font-medium">Maintain</span>
+              </button>
+
+              <button
+                id="goalGain"
+                type="button"
+                class="goalBtn flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition border-gray-200 hover:border-gray-300"
+                data-goal="gain"
+              >
+                <span class="text-xl">📈</span>
+                <span class="text-sm font-medium">Gain Muscle</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Weekly Change -->
+          <div id="weeklyWrap" class="hidden">
+            <label id="weeklyLabel" class="block text-sm font-semibold text-gray-700 mb-2">
+              Weight Loss per Week (lbs)
+            </label>
+            <select
+              id="weeklyChange"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none transition"
+            ></select>
+          </div>
+
+          <!-- Calculate Button -->
+          <button
+            id="calcBtn"
+            type="button"
+            class="w-full bg-indigo-600 text-white py-4 rounded-lg font-semibold hover:bg-indigo-700 transition transform hover:scale-[1.02] active:scale-[0.99]"
+          >
+            Calculate Macros
+          </button>
+
+          <!-- Results -->
+          <div id="results" class="hidden mt-8 space-y-4">
+            <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-6 text-white">
+              <h2 class="text-xl font-semibold mb-2">Daily Target</h2>
+              <p class="text-4xl font-bold">
+                <span id="caloriesOut">0</span> <span class="text-2xl">calories</span>
+              </p>
+              <p class="text-sm mt-2 opacity-90">TDEE: <span id="tdeeOut">0</span> calories</p>
+            </div>
+
+            <div id="proteinCapBox" class="hidden bg-amber-50 border-2 border-amber-200 rounded-lg p-4 text-sm text-amber-800">
+              <p class="font-semibold">⚠️ Protein capped at 40%</p>
+              <p class="mt-1">
+                Your calories are too low to support 1g protein per lb of body weight.
+                Protein set to <span id="proteinPctOut">0</span>% of total calories.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4">
+              <div class="bg-blue-50 rounded-lg p-4 border-2 border-blue-200">
+                <p class="text-sm text-gray-600 font-medium mb-1">Protein</p>
+                <p class="text-3xl font-bold text-blue-600"><span id="proteinOut">0</span>g</p>
+                <p class="text-xs text-gray-500 mt-1"><span id="proteinShareOut">0</span>%</p>
+              </div>
+
+              <div class="bg-green-50 rounded-lg p-4 border-2 border-green-200">
+                <p class="text-sm text-gray-600 font-medium mb-1">Carbs</p>
+                <p class="text-3xl font-bold text-green-600"><span id="carbsOut">0</span>g</p>
+                <p class="text-xs text-gray-500 mt-1"><span id="carbsShareOut">0</span>%</p>
+              </div>
+
+              <div class="bg-amber-50 rounded-lg p-4 border-2 border-amber-200">
+                <p class="text-sm text-gray-600 font-medium mb-1">Fat</p>
+                <p class="text-3xl font-bold text-amber-600"><span id="fatOut">0</span>g</p>
+                <p class="text-xs text-gray-500 mt-1"><span id="fatShareOut">0</span>%</p>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 rounded-lg p-4 text-sm text-gray-600">
+              <p class="font-semibold mb-2">Formula Used:</p>
+              <ul class="space-y-1 list-disc list-inside">
+                <li>Protein: 1g per lb (capped at 40% of calories)</li>
+                <li>Fat: 0.35g per lb of body weight</li>
+                <li>Carbs: Remaining calories</li>
+              </ul>
+            </div>
+          </div>
+
+          <p class="text-xs text-gray-400 pt-2">
+            Note: This is an estimation tool (not medical advice).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // State
+      let goal = "maintain";
+
+      // Elements
+      const weightEl = document.getElementById("weight");
+      const weightErrorEl = document.getElementById("weightError");
+      const activityEl = document.getElementById("activityLevel");
+
+      const weeklyWrap = document.getElementById("weeklyWrap");
+      const weeklyLabel = document.getElementById("weeklyLabel");
+      const weeklyEl = document.getElementById("weeklyChange");
+
+      const resultsEl = document.getElementById("results");
+      const proteinCapBox = document.getElementById("proteinCapBox");
+
+      // Outputs
+      const caloriesOut = document.getElementById("caloriesOut");
+      const tdeeOut = document.getElementById("tdeeOut");
+      const proteinOut = document.getElementById("proteinOut");
+      const carbsOut = document.getElementById("carbsOut");
+      const fatOut = document.getElementById("fatOut");
+
+      const proteinPctOut = document.getElementById("proteinPctOut");
+      const proteinShareOut = document.getElementById("proteinShareOut");
+      const carbsShareOut = document.getElementById("carbsShareOut");
+      const fatShareOut = document.getElementById("fatShareOut");
+
+      // Helpers
+      const activityMultipliers = {
+        sedentary: 13,
+        light: 14,
+        moderate: 15,
+        active: 16,
+        veryActive: 17
+      };
+
+      function setGoal(newGoal) {
+        goal = newGoal;
+
+        // Button styling
+        document.querySelectorAll(".goalBtn").forEach(btn => {
+          const isActive = btn.dataset.goal === goal;
+          btn.className =
+            "goalBtn flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition " +
+            (isActive
+              ? "border-indigo-500 bg-indigo-50"
+              : "border-gray-200 hover:border-gray-300");
+        });
+
+        // Weekly change UI
+        if (goal === "maintain") {
+          weeklyWrap.classList.add("hidden");
+          weeklyEl.innerHTML = "";
+        } else {
+          weeklyWrap.classList.remove("hidden");
+          weeklyLabel.textContent =
+            goal === "lose"
+              ? "Weight Loss per Week (lbs)"
+              : "Muscle Gain per Week (lbs)";
+          populateWeeklyOptions();
+        }
+      }
+
+      function populateWeeklyOptions() {
+        weeklyEl.innerHTML = "";
+        let options = ["0"];
+
+        if (goal === "lose") options = ["0", "0.5", "1", "1.5", "2"];
+        if (goal === "gain") options = ["0", "0.25", "0.5", "0.75", "1"];
+
+        options.forEach(val => {
+          const opt = document.createElement("option");
+          opt.value = val;
+          opt.textContent = `${val} ${val === "1" ? "lb" : "lbs"}/week`;
+          weeklyEl.appendChild(opt);
+        });
+
+        // defaults like your original
+        if (goal === "lose") weeklyEl.value = "1";
+        if (goal === "gain") weeklyEl.value = "0.5";
+      }
+
+      function calculate() {
+        const bodyWeight = parseFloat(weightEl.value);
+        if (!bodyWeight || bodyWeight <= 0) {
+          weightErrorEl.classList.remove("hidden");
+          resultsEl.classList.add("hidden");
+          return;
+        }
+        weightErrorEl.classList.add("hidden");
+
+        const tdee = bodyWeight * activityMultipliers[activityEl.value];
+
+        let targetCalories = tdee;
+        const weeklyChangeNum = parseFloat(weeklyEl.value || "0");
+
+        if (goal === "lose") targetCalories = tdee - weeklyChangeNum * 500;
+        if (goal === "gain") targetCalories = tdee + weeklyChangeNum * 300;
+
+        // Protein (1g/lb capped at 40% of calories)
+        const maxProteinFromCalories = (targetCalories * 0.40) / 4;
+        const protein = Math.min(bodyWeight, maxProteinFromCalories);
+        const proteinCapped = protein < bodyWeight;
+
+        // Fat (0.35g/lb)
+        const fat = bodyWeight * 0.35;
+
+        // Carbs = remainder
+        const proteinCals = protein * 4;
+        const fatCals = fat * 9;
+        const carbCals = targetCalories - proteinCals - fatCals;
+        const carbs = carbCals / 4;
+
+        // Round
+        const caloriesR = Math.round(targetCalories);
+        const tdeeR = Math.round(tdee);
+        const proteinR = Math.round(protein);
+        const fatR = Math.round(fat);
+        const carbsR = Math.round(carbs);
+
+        // Output
+        caloriesOut.textContent = caloriesR;
+        tdeeOut.textContent = tdeeR;
+        proteinOut.textContent = proteinR;
+        carbsOut.textContent = carbsR;
+        fatOut.textContent = fatR;
+
+        // Shares
+        const proteinPct = Math.round((protein * 4 / targetCalories) * 100);
+        const proteinShare = Math.round((proteinR * 4 / caloriesR) * 100);
+        const carbsShare = Math.round((carbsR * 4 / caloriesR) * 100);
+        const fatShare = Math.round((fatR * 9 / caloriesR) * 100);
+
+        proteinPctOut.textContent = proteinPct;
+        proteinShareOut.textContent = proteinShare;
+        carbsShareOut.textContent = carbsShare;
+        fatShareOut.textContent = fatShare;
+
+        // Protein cap warning
+        if (proteinCapped) proteinCapBox.classList.remove("hidden");
+        else proteinCapBox.classList.add("hidden");
+
+        resultsEl.classList.remove("hidden");
+      }
+
+      // Wire up events
+      document.getElementById("goalLose").addEventListener("click", () => setGoal("lose"));
+      document.getElementById("goalMaintain").addEventListener("click", () => setGoal("maintain"));
+      document.getElementById("goalGain").addEventListener("click", () => setGoal("gain"));
+      document.getElementById("calcBtn").addEventListener("click", calculate);
+
+      // Enter key triggers calculate
+      weightEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") calculate();
+      });
+
+      // Init
+      setGoal("maintain");
+    </script>
+  </body>
+</html>
