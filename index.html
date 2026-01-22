@@ -371,9 +371,17 @@
         if (goal === "lose") targetCalories = tdee - weeklyChangeNum * 500;
         if (goal === "gain") targetCalories = tdee + weeklyChangeNum * 300;
 
-        const maxProteinFromCalories = (targetCalories * 0.40) / 4;
-        const protein = Math.min(bodyWeight, maxProteinFromCalories);
-        const proteinCapped = protein < bodyWeight;
+      const maxProteinFromCalories = (targetCalories * 0.40) / 4;
+      const proteinCap = 200;
+
+// Protein: 1g/lb, capped by calories rule AND hard cap (200g)
+const protein = Math.min(bodyWeight, maxProteinFromCalories, proteinCap);
+
+// Protein was capped if we couldn't hit 1g/lb (either due to calories or the 200g cap)
+const proteinCapped = protein < bodyWeight;
+
+// For the warning message: what % of calories protein is
+const proteinPercentage = Math.round((protein * 4 / targetCalories) * 100);
 
         const fat = bodyWeight * 0.35;
 
