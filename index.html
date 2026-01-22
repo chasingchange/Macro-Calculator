@@ -10,21 +10,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
-      // Simple "brand tokens" you can tweak
+      // Brand tokens
       tailwind.config = {
         theme: {
           extend: {
             colors: {
               cc: {
-                ink: "#0B0F14",     // near-black
-                ash: "#0F172A",     // slate
-                lime: "#A3FF12",    // electric lime accent
-                cyan: "#22D3EE",    // secondary accent
-                paper: "#F8FAFC",   // light surface
+                text: "#071f35",     // your text color
+                bg: "#f5f5f7",       // your page background
+                outline: "#77d770",  // your outline/accent
+                card: "#ffffff"
               }
             },
             boxShadow: {
-              glow: "0 0 0 1px rgba(163,255,18,0.15), 0 12px 40px rgba(2,6,23,0.25)"
+              soft: "0 10px 30px rgba(7,31,53,0.10)",
+              outline: "0 0 0 1px rgba(119,215,112,0.55)"
             }
           }
         }
@@ -32,82 +32,59 @@
     </script>
 
     <style>
-      /* Prevent Notion iframe scroll weirdness */
       html, body { height: 100%; }
-      /* Smoother fonts */
       body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
     </style>
   </head>
 
-  <body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6 text-slate-100">
-    <div class="max-w-3xl mx-auto">
-      <!-- Brand Header -->
-   <div class="mb-8">
-  <div class="flex items-center gap-4">
-    <!-- Logo -->
-    <img
-      src="logo.png"
-      alt="Chasing Change logo"
-      class="w-16 h-auto"
-    />
+  <body class="min-h-screen bg-cc-bg text-cc-text">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <!-- Header -->
+      <header class="mb-6 sm:mb-8">
+        <div class="flex items-center gap-4">
+          <img
+            src="Chasing Change Logo2.png"
+            alt="Chasing Change logo"
+            class="w-14 sm:w-16 h-auto"
+          />
 
-    <!-- Brand Text -->
-    <div>
-      <p class="text-xs uppercase tracking-[0.25em] text-slate-400">
-        Chasing Change
-      </p>
-      <h1 class="text-3xl sm:text-4xl font-bold text-white leading-tight">
-        Macro Calculator
-      </h1>
-      <p class="text-sm text-slate-300 mt-1 italic">
-        Pursuing Purpose
-      </p>
-    </div>
-  </div>
+          <div class="min-w-0">
+            <p class="text-xs uppercase tracking-[0.25em] opacity-70">
+              Chasing Change
+            </p>
+            <h1 class="text-2xl sm:text-3xl font-extrabold leading-tight">
+              Macro Calculator
+            </h1>
+            <p class="text-sm mt-1 italic opacity-80">
+              Pursuing Purpose
+            </p>
+          </div>
+        </div>
 
-  <!-- Tagline -->
-  <p class="mt-4 text-slate-300 text-sm">
-    <span class="font-semibold text-cc-lime">Build the body.</span>
-    Build the art.
-    Chase change.
-  </p>
-
-  <!-- CTA -->
-  <a
-    href="https://tally.so/r/w5JXKE"
-    target="_blank"
-    rel="noreferrer"
-    class="mt-5 inline-flex w-full sm:w-auto items-center justify-center
-           rounded-2xl px-6 py-3 text-sm font-semibold
-           bg-cc-lime text-cc-ink hover:opacity-90 transition shadow-glow"
-  >
-    Apply for Coaching →
-  </a>
-</div>
-
-        <!-- Mobile CTA -->
-        <a
-          href="https://example.com"
-          target="_blank"
-          rel="noreferrer"
-          class="sm:hidden mt-4 inline-flex w-full items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold
-                 bg-cc-lime text-cc-ink hover:opacity-90 transition shadow-glow"
-        >
-          Apply for Coaching →
-        </a>
-
-        <p class="text-xs text-slate-400 mt-3">
-          Fast estimate tool. For performance or medical needs, consult a qualified professional.
+        <p class="mt-3 text-sm sm:text-base">
+          <span class="font-semibold">Build the body.</span> Build the art. Chase change.
         </p>
-      </div>
+
+        <div class="mt-4">
+          <a
+            href="https://tally.so/r/w5JXKE"
+            target="_blank"
+            rel="noreferrer"
+            class="inline-flex w-full sm:w-auto items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold
+                   bg-cc-outline text-cc-text hover:opacity-90 transition shadow-outline"
+          >
+            Apply for Coaching →
+          </a>
+        </div>
+      </header>
 
       <!-- App Card -->
-      <div class="rounded-3xl bg-white/5 ring-1 ring-white/10 shadow-glow overflow-hidden">
-        <div class="p-6 sm:p-8">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 rounded-xl bg-white/5 ring-1 ring-white/10 flex items-center justify-center">
-              <!-- Inline icon -->
-              <svg viewBox="0 0 24 24" class="w-6 h-6 text-cc-cyan" fill="none" stroke="currentColor" stroke-width="2">
+      <main class="rounded-3xl bg-cc-card shadow-soft ring-1 ring-black/5 overflow-hidden">
+        <div class="p-5 sm:p-8">
+          <div class="flex items-start gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-cc-outline/15 ring-1 ring-cc-outline/40 flex items-center justify-center">
+              <!-- calculator icon -->
+              <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
                 <path d="M9 6h6"/>
                 <path d="M9 10h6"/>
@@ -117,34 +94,35 @@
                 <path d="M13 18h2"/>
               </svg>
             </div>
+
             <div>
-              <h2 class="text-xl font-semibold text-white">Set your targets</h2>
-              <p class="text-sm text-slate-300">Enter your weight, pick your goal, and get macros in seconds.</p>
+              <h2 class="text-lg sm:text-xl font-bold">Set your targets</h2>
+              <p class="text-sm opacity-80">Enter your weight, pick your goal, and get macros in seconds.</p>
             </div>
           </div>
 
-          <div class="space-y-6">
+          <div class="space-y-5">
             <!-- Body Weight -->
             <div>
-              <label class="block text-sm font-semibold text-slate-200 mb-2">Body Weight (lbs)</label>
+              <label class="block text-sm font-semibold mb-2">Body Weight (lbs)</label>
               <input
                 id="weight"
                 type="number"
                 inputmode="decimal"
                 placeholder="e.g. 165"
-                class="w-full px-4 py-3 rounded-xl bg-slate-950/60 ring-1 ring-white/10
-                       focus:ring-2 focus:ring-cc-lime/50 focus:outline-none transition text-white placeholder:text-slate-500"
+                class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+                       focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
               />
-              <p id="weightError" class="hidden mt-2 text-sm text-red-300">Please enter a valid weight.</p>
+              <p id="weightError" class="hidden mt-2 text-sm text-red-600">Please enter a valid weight.</p>
             </div>
 
             <!-- Activity Level -->
             <div>
-              <label class="block text-sm font-semibold text-slate-200 mb-2">Activity Level</label>
+              <label class="block text-sm font-semibold mb-2">Activity Level</label>
               <select
                 id="activityLevel"
-                class="w-full px-4 py-3 rounded-xl bg-slate-950/60 ring-1 ring-white/10
-                       focus:ring-2 focus:ring-cc-lime/50 focus:outline-none transition text-white"
+                class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+                       focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
               >
                 <option value="sedentary">Sedentary (little/no exercise)</option>
                 <option value="light">Light (1-3 days/week)</option>
@@ -156,54 +134,54 @@
 
             <!-- Goal -->
             <div>
-              <label class="block text-sm font-semibold text-slate-200 mb-3">Goal</label>
+              <label class="block text-sm font-semibold mb-3">Goal</label>
               <div class="grid grid-cols-3 gap-3">
                 <button
                   id="goalLose"
                   type="button"
-                  class="goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl ring-1 ring-white/10 transition bg-slate-950/40 hover:bg-slate-950/70"
+                  class="goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl ring-1 ring-black/10 bg-white hover:ring-cc-outline/60 transition"
                   data-goal="lose"
                 >
                   <span class="text-xl">📉</span>
-                  <span class="text-sm font-medium text-white">Lose Fat</span>
-                  <span class="text-xs text-slate-400">Cut phase</span>
+                  <span class="text-sm font-semibold">Lose Fat</span>
+                  <span class="text-xs opacity-70">Cut phase</span>
                 </button>
 
                 <button
                   id="goalMaintain"
                   type="button"
-                  class="goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl ring-2 ring-cc-lime/60 transition bg-cc-lime/10"
+                  class="goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl ring-2 ring-cc-outline/80 bg-cc-outline/15 transition"
                   data-goal="maintain"
                 >
                   <span class="text-xl">➖</span>
-                  <span class="text-sm font-medium text-white">Maintain</span>
-                  <span class="text-xs text-slate-300">Recomp</span>
+                  <span class="text-sm font-semibold">Maintain</span>
+                  <span class="text-xs opacity-70">Recomp</span>
                 </button>
 
                 <button
                   id="goalGain"
                   type="button"
-                  class="goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl ring-1 ring-white/10 transition bg-slate-950/40 hover:bg-slate-950/70"
+                  class="goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl ring-1 ring-black/10 bg-white hover:ring-cc-outline/60 transition"
                   data-goal="gain"
                 >
                   <span class="text-xl">📈</span>
-                  <span class="text-sm font-medium text-white">Gain Muscle</span>
-                  <span class="text-xs text-slate-400">Lean bulk</span>
+                  <span class="text-sm font-semibold">Gain Muscle</span>
+                  <span class="text-xs opacity-70">Lean bulk</span>
                 </button>
               </div>
             </div>
 
             <!-- Weekly Change -->
             <div id="weeklyWrap" class="hidden">
-              <label id="weeklyLabel" class="block text-sm font-semibold text-slate-200 mb-2">
+              <label id="weeklyLabel" class="block text-sm font-semibold mb-2">
                 Weight Loss per Week (lbs)
               </label>
               <select
                 id="weeklyChange"
-                class="w-full px-4 py-3 rounded-xl bg-slate-950/60 ring-1 ring-white/10
-                       focus:ring-2 focus:ring-cc-lime/50 focus:outline-none transition text-white"
+                class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+                       focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
               ></select>
-              <p class="text-xs text-slate-400 mt-2">
+              <p class="text-xs opacity-70 mt-2">
                 Tip: If adherence is hard, go smaller and stay consistent.
               </p>
             </div>
@@ -212,23 +190,24 @@
             <button
               id="calcBtn"
               type="button"
-              class="w-full rounded-2xl py-4 font-semibold text-cc-ink
-                     bg-cc-lime hover:opacity-90 transition shadow-glow"
+              class="w-full rounded-2xl py-4 font-bold
+                     bg-cc-outline text-cc-text hover:opacity-90 transition shadow-outline"
             >
               Calculate Macros
             </button>
 
             <!-- Results -->
-            <div id="results" class="hidden mt-8 space-y-4">
-              <div class="rounded-2xl p-6 ring-1 ring-white/10 bg-gradient-to-r from-slate-950/60 to-slate-900/60">
-                <h3 class="text-lg font-semibold text-white mb-2">Daily Target</h3>
-                <p class="text-4xl font-black">
-                  <span id="caloriesOut">0</span> <span class="text-2xl font-bold text-slate-300">calories</span>
+            <div id="results" class="hidden mt-6 space-y-4">
+              <div class="rounded-2xl p-5 ring-1 ring-black/10 bg-white">
+                <h3 class="text-base sm:text-lg font-bold mb-2">Daily Target</h3>
+                <p class="text-3xl sm:text-4xl font-extrabold">
+                  <span id="caloriesOut">0</span>
+                  <span class="text-xl sm:text-2xl font-bold opacity-70"> calories</span>
                 </p>
-                <p class="text-sm mt-2 text-slate-300">Estimated TDEE: <span id="tdeeOut">0</span> calories</p>
+                <p class="text-sm mt-2 opacity-80">Estimated TDEE: <span id="tdeeOut">0</span> calories</p>
               </div>
 
-              <div id="proteinCapBox" class="hidden rounded-2xl p-4 text-sm ring-1 ring-amber-400/30 bg-amber-400/10 text-amber-100">
+              <div id="proteinCapBox" class="hidden rounded-2xl p-4 text-sm ring-1 ring-amber-300/60 bg-amber-50 text-amber-900">
                 <p class="font-semibold">⚠️ Protein capped at 40%</p>
                 <p class="mt-1">
                   Calories are too low to support 1g protein per lb.
@@ -236,62 +215,61 @@
                 </p>
               </div>
 
-              <div class="grid grid-cols-3 gap-4">
-                <div class="rounded-2xl p-4 ring-1 ring-white/10 bg-white/5">
-                  <p class="text-sm text-slate-300 font-medium mb-1">Protein</p>
-                  <p class="text-3xl font-black text-white"><span id="proteinOut">0</span><span class="text-base font-semibold text-slate-300">g</span></p>
-                  <p class="text-xs text-slate-400 mt-1"><span id="proteinShareOut">0</span>%</p>
+              <div class="grid grid-cols-3 gap-3 sm:gap-4">
+                <div class="rounded-2xl p-4 ring-1 ring-black/10 bg-white">
+                  <p class="text-sm font-semibold mb-1 opacity-80">Protein</p>
+                  <p class="text-2xl sm:text-3xl font-extrabold">
+                    <span id="proteinOut">0</span><span class="text-base font-semibold opacity-70">g</span>
+                  </p>
+                  <p class="text-xs opacity-70 mt-1"><span id="proteinShareOut">0</span>%</p>
                 </div>
 
-                <div class="rounded-2xl p-4 ring-1 ring-white/10 bg-white/5">
-                  <p class="text-sm text-slate-300 font-medium mb-1">Carbs</p>
-                  <p class="text-3xl font-black text-white"><span id="carbsOut">0</span><span class="text-base font-semibold text-slate-300">g</span></p>
-                  <p class="text-xs text-slate-400 mt-1"><span id="carbsShareOut">0</span>%</p>
+                <div class="rounded-2xl p-4 ring-1 ring-black/10 bg-white">
+                  <p class="text-sm font-semibold mb-1 opacity-80">Carbs</p>
+                  <p class="text-2xl sm:text-3xl font-extrabold">
+                    <span id="carbsOut">0</span><span class="text-base font-semibold opacity-70">g</span>
+                  </p>
+                  <p class="text-xs opacity-70 mt-1"><span id="carbsShareOut">0</span>%</p>
                 </div>
 
-                <div class="rounded-2xl p-4 ring-1 ring-white/10 bg-white/5">
-                  <p class="text-sm text-slate-300 font-medium mb-1">Fat</p>
-                  <p class="text-3xl font-black text-white"><span id="fatOut">0</span><span class="text-base font-semibold text-slate-300">g</span></p>
-                  <p class="text-xs text-slate-400 mt-1"><span id="fatShareOut">0</span>%</p>
+                <div class="rounded-2xl p-4 ring-1 ring-black/10 bg-white">
+                  <p class="text-sm font-semibold mb-1 opacity-80">Fat</p>
+                  <p class="text-2xl sm:text-3xl font-extrabold">
+                    <span id="fatOut">0</span><span class="text-base font-semibold opacity-70">g</span>
+                  </p>
+                  <p class="text-xs opacity-70 mt-1"><span id="fatShareOut">0</span>%</p>
                 </div>
               </div>
 
-              <div class="rounded-2xl p-4 text-sm text-slate-300 ring-1 ring-white/10 bg-slate-950/40">
-                <p class="font-semibold mb-2 text-white">Formula Used</p>
-                <ul class="space-y-1 list-disc list-inside">
+              <div class="rounded-2xl p-4 text-sm ring-1 ring-black/10 bg-white">
+                <p class="font-bold mb-2">Formula Used</p>
+                <ul class="space-y-1 list-disc list-inside opacity-90">
                   <li>Protein: 1g per lb (capped at 40% of calories)</li>
                   <li>Fat: 0.35g per lb of body weight</li>
                   <li>Carbs: Remaining calories</li>
                 </ul>
               </div>
 
-              <!-- Secondary CTA inside results -->
-             <a
-  href="https://tally.so/r/w5JXKE"
-  target="_blank"
-  rel="noreferrer"
-  class="inline-flex w-full items-center justify-center rounded-2xl px-4 py-3
-         text-sm font-semibold bg-white/10 ring-1 ring-white/15
-         hover:bg-white/15 transition text-white"
->
-  Want this dialed in? Apply for coaching →
-</a>
-
+              <a
+                href="https://tally.so/r/w5JXKE"
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex w-full items-center justify-center rounded-2xl px-4 py-3
+                       text-sm font-bold bg-cc-text text-white hover:opacity-95 transition"
+              >
+                Want this dialed in? Apply for coaching →
+              </a>
             </div>
 
-           <p class="text-xs text-slate-500 pt-4 text-center">
-  © 2026 Chasing Change — consistency beats intensity
-</p>
-
+            <p class="text-xs pt-4 text-center opacity-60">
+              © 2026 Chasing Change — consistency beats intensity
+            </p>
           </div>
         </div>
-      </div>
+      </main>
     </div>
 
     <script>
-      // Footer year
-      document.getElementById("year").textContent = new Date().getFullYear();
-
       // State
       let goal = "maintain";
 
@@ -331,16 +309,16 @@
       function setGoal(newGoal) {
         goal = newGoal;
 
-        // Button styling (brand version)
+        // Button styling
         document.querySelectorAll(".goalBtn").forEach(btn => {
           const isActive = btn.dataset.goal === goal;
 
           if (isActive) {
             btn.className =
-              "goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl transition ring-2 ring-cc-lime/60 bg-cc-lime/10";
+              "goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl transition ring-2 ring-cc-outline/80 bg-cc-outline/15";
           } else {
             btn.className =
-              "goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl transition ring-1 ring-white/10 bg-slate-950/40 hover:bg-slate-950/70";
+              "goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl transition ring-1 ring-black/10 bg-white hover:ring-cc-outline/60";
           }
         });
 
@@ -372,7 +350,6 @@
           weeklyEl.appendChild(opt);
         });
 
-        // defaults like your original
         if (goal === "lose") weeklyEl.value = "1";
         if (goal === "gain") weeklyEl.value = "0.5";
       }
@@ -394,35 +371,29 @@
         if (goal === "lose") targetCalories = tdee - weeklyChangeNum * 500;
         if (goal === "gain") targetCalories = tdee + weeklyChangeNum * 300;
 
-        // Protein (1g/lb capped at 40% of calories)
         const maxProteinFromCalories = (targetCalories * 0.40) / 4;
         const protein = Math.min(bodyWeight, maxProteinFromCalories);
         const proteinCapped = protein < bodyWeight;
 
-        // Fat (0.35g/lb)
         const fat = bodyWeight * 0.35;
 
-        // Carbs = remainder
         const proteinCals = protein * 4;
         const fatCals = fat * 9;
         const carbCals = targetCalories - proteinCals - fatCals;
         const carbs = carbCals / 4;
 
-        // Round
         const caloriesR = Math.round(targetCalories);
         const tdeeR = Math.round(tdee);
         const proteinR = Math.round(protein);
         const fatR = Math.round(fat);
         const carbsR = Math.round(carbs);
 
-        // Output
         caloriesOut.textContent = caloriesR;
         tdeeOut.textContent = tdeeR;
         proteinOut.textContent = proteinR;
         carbsOut.textContent = carbsR;
         fatOut.textContent = fatR;
 
-        // Shares
         const proteinPct = Math.round((protein * 4 / targetCalories) * 100);
         const proteinShare = Math.round((proteinR * 4 / caloriesR) * 100);
         const carbsShare = Math.round((carbsR * 4 / caloriesR) * 100);
@@ -433,25 +404,21 @@
         carbsShareOut.textContent = carbsShare;
         fatShareOut.textContent = fatShare;
 
-        // Protein cap warning
         if (proteinCapped) proteinCapBox.classList.remove("hidden");
         else proteinCapBox.classList.add("hidden");
 
         resultsEl.classList.remove("hidden");
       }
 
-      // Wire up events
       document.getElementById("goalLose").addEventListener("click", () => setGoal("lose"));
       document.getElementById("goalMaintain").addEventListener("click", () => setGoal("maintain"));
       document.getElementById("goalGain").addEventListener("click", () => setGoal("gain"));
       document.getElementById("calcBtn").addEventListener("click", calculate);
 
-      // Enter key triggers calculate
       weightEl.addEventListener("keydown", (e) => {
         if (e.key === "Enter") calculate();
       });
 
-      // Init
       setGoal("maintain");
     </script>
   </body>
