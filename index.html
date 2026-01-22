@@ -3,177 +3,281 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Macro Calculator</title>
+    <title>Chasing Change — Macro Calculator</title>
+    <meta name="description" content="Chasing Change macro calculator to estimate calories + macros based on your goal and activity level." />
 
-    <!-- Tailwind via CDN (easy embed-friendly styling) -->
+    <!-- Tailwind via CDN (embed-friendly) -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      // Simple "brand tokens" you can tweak
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cc: {
+                ink: "#0B0F14",     // near-black
+                ash: "#0F172A",     // slate
+                lime: "#A3FF12",    // electric lime accent
+                cyan: "#22D3EE",    // secondary accent
+                paper: "#F8FAFC",   // light surface
+              }
+            },
+            boxShadow: {
+              glow: "0 0 0 1px rgba(163,255,18,0.15), 0 12px 40px rgba(2,6,23,0.25)"
+            }
+          }
+        }
+      };
+    </script>
 
     <style>
       /* Prevent Notion iframe scroll weirdness */
       html, body { height: 100%; }
+      /* Smoother fonts */
+      body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
     </style>
   </head>
 
-  <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
-    <div class="max-w-2xl mx-auto">
-      <div class="bg-white rounded-2xl shadow-xl p-8">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center">
-            <!-- Simple inline icon (no dependencies) -->
-            <svg viewBox="0 0 24 24" class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
-              <path d="M9 6h6"/>
-              <path d="M9 10h6"/>
-              <path d="M9 14h2"/>
-              <path d="M13 14h2"/>
-              <path d="M9 18h2"/>
-              <path d="M13 18h2"/>
-            </svg>
+  <body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6 text-slate-100">
+    <div class="max-w-3xl mx-auto">
+      <!-- Brand Header -->
+      <div class="mb-6">
+        <div class="flex items-start justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <!-- Logo placeholder -->
+            <div class="w-11 h-11 rounded-2xl bg-cc-lime/15 ring-1 ring-cc-lime/30 flex items-center justify-center shadow-glow">
+              <span class="font-black tracking-tight text-cc-lime">CC</span>
+            </div>
+
+            <div>
+              <p class="text-sm uppercase tracking-[0.2em] text-slate-300">Chasing Change</p>
+              <h1 class="text-2xl sm:text-3xl font-bold text-white leading-tight">
+                Macro Calculator
+              </h1>
+              <p class="text-sm text-slate-300 mt-1">
+                Build the body. Build the art. <span class="text-cc-lime font-semibold">Chase change.</span>
+              </p>
+            </div>
           </div>
-          <h1 class="text-3xl font-bold text-gray-800">Macro Calculator</h1>
+
+          <!-- CTA (paste your link) -->
+          <a
+            id="ctaLink"
+            href="https://example.com" 
+            target="_blank"
+            rel="noreferrer"
+            class="hidden sm:inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold
+                   bg-cc-lime text-cc-ink hover:opacity-90 transition shadow-glow"
+          >
+            Apply for Coaching →
+          </a>
         </div>
 
-        <div class="space-y-6">
-          <!-- Body Weight -->
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-2">Body Weight (lbs)</label>
-            <input
-              id="weight"
-              type="number"
-              inputmode="decimal"
-              placeholder="Enter your weight"
-              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none transition"
-            />
-            <p id="weightError" class="hidden mt-2 text-sm text-red-600">Please enter a valid weight.</p>
+        <!-- Mobile CTA -->
+        <a
+          href="https://example.com"
+          target="_blank"
+          rel="noreferrer"
+          class="sm:hidden mt-4 inline-flex w-full items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold
+                 bg-cc-lime text-cc-ink hover:opacity-90 transition shadow-glow"
+        >
+          Apply for Coaching →
+        </a>
+
+        <p class="text-xs text-slate-400 mt-3">
+          Fast estimate tool. For performance or medical needs, consult a qualified professional.
+        </p>
+      </div>
+
+      <!-- App Card -->
+      <div class="rounded-3xl bg-white/5 ring-1 ring-white/10 shadow-glow overflow-hidden">
+        <div class="p-6 sm:p-8">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-white/5 ring-1 ring-white/10 flex items-center justify-center">
+              <!-- Inline icon -->
+              <svg viewBox="0 0 24 24" class="w-6 h-6 text-cc-cyan" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+                <path d="M9 6h6"/>
+                <path d="M9 10h6"/>
+                <path d="M9 14h2"/>
+                <path d="M13 14h2"/>
+                <path d="M9 18h2"/>
+                <path d="M13 18h2"/>
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-xl font-semibold text-white">Set your targets</h2>
+              <p class="text-sm text-slate-300">Enter your weight, pick your goal, and get macros in seconds.</p>
+            </div>
           </div>
 
-          <!-- Activity Level -->
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-2">Activity Level</label>
-            <select
-              id="activityLevel"
-              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none transition"
+          <div class="space-y-6">
+            <!-- Body Weight -->
+            <div>
+              <label class="block text-sm font-semibold text-slate-200 mb-2">Body Weight (lbs)</label>
+              <input
+                id="weight"
+                type="number"
+                inputmode="decimal"
+                placeholder="e.g. 165"
+                class="w-full px-4 py-3 rounded-xl bg-slate-950/60 ring-1 ring-white/10
+                       focus:ring-2 focus:ring-cc-lime/50 focus:outline-none transition text-white placeholder:text-slate-500"
+              />
+              <p id="weightError" class="hidden mt-2 text-sm text-red-300">Please enter a valid weight.</p>
+            </div>
+
+            <!-- Activity Level -->
+            <div>
+              <label class="block text-sm font-semibold text-slate-200 mb-2">Activity Level</label>
+              <select
+                id="activityLevel"
+                class="w-full px-4 py-3 rounded-xl bg-slate-950/60 ring-1 ring-white/10
+                       focus:ring-2 focus:ring-cc-lime/50 focus:outline-none transition text-white"
+              >
+                <option value="sedentary">Sedentary (little/no exercise)</option>
+                <option value="light">Light (1-3 days/week)</option>
+                <option value="moderate" selected>Moderate (3-5 days/week)</option>
+                <option value="active">Active (6-7 days/week)</option>
+                <option value="veryActive">Very Active (athlete/physical job)</option>
+              </select>
+            </div>
+
+            <!-- Goal -->
+            <div>
+              <label class="block text-sm font-semibold text-slate-200 mb-3">Goal</label>
+              <div class="grid grid-cols-3 gap-3">
+                <button
+                  id="goalLose"
+                  type="button"
+                  class="goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl ring-1 ring-white/10 transition bg-slate-950/40 hover:bg-slate-950/70"
+                  data-goal="lose"
+                >
+                  <span class="text-xl">📉</span>
+                  <span class="text-sm font-medium text-white">Lose Fat</span>
+                  <span class="text-xs text-slate-400">Cut phase</span>
+                </button>
+
+                <button
+                  id="goalMaintain"
+                  type="button"
+                  class="goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl ring-2 ring-cc-lime/60 transition bg-cc-lime/10"
+                  data-goal="maintain"
+                >
+                  <span class="text-xl">➖</span>
+                  <span class="text-sm font-medium text-white">Maintain</span>
+                  <span class="text-xs text-slate-300">Recomp</span>
+                </button>
+
+                <button
+                  id="goalGain"
+                  type="button"
+                  class="goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl ring-1 ring-white/10 transition bg-slate-950/40 hover:bg-slate-950/70"
+                  data-goal="gain"
+                >
+                  <span class="text-xl">📈</span>
+                  <span class="text-sm font-medium text-white">Gain Muscle</span>
+                  <span class="text-xs text-slate-400">Lean bulk</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Weekly Change -->
+            <div id="weeklyWrap" class="hidden">
+              <label id="weeklyLabel" class="block text-sm font-semibold text-slate-200 mb-2">
+                Weight Loss per Week (lbs)
+              </label>
+              <select
+                id="weeklyChange"
+                class="w-full px-4 py-3 rounded-xl bg-slate-950/60 ring-1 ring-white/10
+                       focus:ring-2 focus:ring-cc-lime/50 focus:outline-none transition text-white"
+              ></select>
+              <p class="text-xs text-slate-400 mt-2">
+                Tip: If adherence is hard, go smaller and stay consistent.
+              </p>
+            </div>
+
+            <!-- Calculate Button -->
+            <button
+              id="calcBtn"
+              type="button"
+              class="w-full rounded-2xl py-4 font-semibold text-cc-ink
+                     bg-cc-lime hover:opacity-90 transition shadow-glow"
             >
-              <option value="sedentary">Sedentary (little/no exercise)</option>
-              <option value="light">Light (1-3 days/week)</option>
-              <option value="moderate" selected>Moderate (3-5 days/week)</option>
-              <option value="active">Active (6-7 days/week)</option>
-              <option value="veryActive">Very Active (athlete/physical job)</option>
-            </select>
-          </div>
+              Calculate Macros
+            </button>
 
-          <!-- Goal -->
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-3">Goal</label>
-            <div class="grid grid-cols-3 gap-3">
-              <button
-                id="goalLose"
-                type="button"
-                class="goalBtn flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition border-gray-200 hover:border-gray-300"
-                data-goal="lose"
-              >
-                <span class="text-xl">📉</span>
-                <span class="text-sm font-medium">Lose Fat</span>
-              </button>
-
-              <button
-                id="goalMaintain"
-                type="button"
-                class="goalBtn flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition border-indigo-500 bg-indigo-50"
-                data-goal="maintain"
-              >
-                <span class="text-xl">➖</span>
-                <span class="text-sm font-medium">Maintain</span>
-              </button>
-
-              <button
-                id="goalGain"
-                type="button"
-                class="goalBtn flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition border-gray-200 hover:border-gray-300"
-                data-goal="gain"
-              >
-                <span class="text-xl">📈</span>
-                <span class="text-sm font-medium">Gain Muscle</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Weekly Change -->
-          <div id="weeklyWrap" class="hidden">
-            <label id="weeklyLabel" class="block text-sm font-semibold text-gray-700 mb-2">
-              Weight Loss per Week (lbs)
-            </label>
-            <select
-              id="weeklyChange"
-              class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none transition"
-            ></select>
-          </div>
-
-          <!-- Calculate Button -->
-          <button
-            id="calcBtn"
-            type="button"
-            class="w-full bg-indigo-600 text-white py-4 rounded-lg font-semibold hover:bg-indigo-700 transition transform hover:scale-[1.02] active:scale-[0.99]"
-          >
-            Calculate Macros
-          </button>
-
-          <!-- Results -->
-          <div id="results" class="hidden mt-8 space-y-4">
-            <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-6 text-white">
-              <h2 class="text-xl font-semibold mb-2">Daily Target</h2>
-              <p class="text-4xl font-bold">
-                <span id="caloriesOut">0</span> <span class="text-2xl">calories</span>
-              </p>
-              <p class="text-sm mt-2 opacity-90">TDEE: <span id="tdeeOut">0</span> calories</p>
-            </div>
-
-            <div id="proteinCapBox" class="hidden bg-amber-50 border-2 border-amber-200 rounded-lg p-4 text-sm text-amber-800">
-              <p class="font-semibold">⚠️ Protein capped at 40%</p>
-              <p class="mt-1">
-                Your calories are too low to support 1g protein per lb of body weight.
-                Protein set to <span id="proteinPctOut">0</span>% of total calories.
-              </p>
-            </div>
-
-            <div class="grid grid-cols-3 gap-4">
-              <div class="bg-blue-50 rounded-lg p-4 border-2 border-blue-200">
-                <p class="text-sm text-gray-600 font-medium mb-1">Protein</p>
-                <p class="text-3xl font-bold text-blue-600"><span id="proteinOut">0</span>g</p>
-                <p class="text-xs text-gray-500 mt-1"><span id="proteinShareOut">0</span>%</p>
+            <!-- Results -->
+            <div id="results" class="hidden mt-8 space-y-4">
+              <div class="rounded-2xl p-6 ring-1 ring-white/10 bg-gradient-to-r from-slate-950/60 to-slate-900/60">
+                <h3 class="text-lg font-semibold text-white mb-2">Daily Target</h3>
+                <p class="text-4xl font-black">
+                  <span id="caloriesOut">0</span> <span class="text-2xl font-bold text-slate-300">calories</span>
+                </p>
+                <p class="text-sm mt-2 text-slate-300">Estimated TDEE: <span id="tdeeOut">0</span> calories</p>
               </div>
 
-              <div class="bg-green-50 rounded-lg p-4 border-2 border-green-200">
-                <p class="text-sm text-gray-600 font-medium mb-1">Carbs</p>
-                <p class="text-3xl font-bold text-green-600"><span id="carbsOut">0</span>g</p>
-                <p class="text-xs text-gray-500 mt-1"><span id="carbsShareOut">0</span>%</p>
+              <div id="proteinCapBox" class="hidden rounded-2xl p-4 text-sm ring-1 ring-amber-400/30 bg-amber-400/10 text-amber-100">
+                <p class="font-semibold">⚠️ Protein capped at 40%</p>
+                <p class="mt-1">
+                  Calories are too low to support 1g protein per lb.
+                  Protein set to <span id="proteinPctOut">0</span>% of total calories.
+                </p>
               </div>
 
-              <div class="bg-amber-50 rounded-lg p-4 border-2 border-amber-200">
-                <p class="text-sm text-gray-600 font-medium mb-1">Fat</p>
-                <p class="text-3xl font-bold text-amber-600"><span id="fatOut">0</span>g</p>
-                <p class="text-xs text-gray-500 mt-1"><span id="fatShareOut">0</span>%</p>
+              <div class="grid grid-cols-3 gap-4">
+                <div class="rounded-2xl p-4 ring-1 ring-white/10 bg-white/5">
+                  <p class="text-sm text-slate-300 font-medium mb-1">Protein</p>
+                  <p class="text-3xl font-black text-white"><span id="proteinOut">0</span><span class="text-base font-semibold text-slate-300">g</span></p>
+                  <p class="text-xs text-slate-400 mt-1"><span id="proteinShareOut">0</span>%</p>
+                </div>
+
+                <div class="rounded-2xl p-4 ring-1 ring-white/10 bg-white/5">
+                  <p class="text-sm text-slate-300 font-medium mb-1">Carbs</p>
+                  <p class="text-3xl font-black text-white"><span id="carbsOut">0</span><span class="text-base font-semibold text-slate-300">g</span></p>
+                  <p class="text-xs text-slate-400 mt-1"><span id="carbsShareOut">0</span>%</p>
+                </div>
+
+                <div class="rounded-2xl p-4 ring-1 ring-white/10 bg-white/5">
+                  <p class="text-sm text-slate-300 font-medium mb-1">Fat</p>
+                  <p class="text-3xl font-black text-white"><span id="fatOut">0</span><span class="text-base font-semibold text-slate-300">g</span></p>
+                  <p class="text-xs text-slate-400 mt-1"><span id="fatShareOut">0</span>%</p>
+                </div>
               </div>
+
+              <div class="rounded-2xl p-4 text-sm text-slate-300 ring-1 ring-white/10 bg-slate-950/40">
+                <p class="font-semibold mb-2 text-white">Formula Used</p>
+                <ul class="space-y-1 list-disc list-inside">
+                  <li>Protein: 1g per lb (capped at 40% of calories)</li>
+                  <li>Fat: 0.35g per lb of body weight</li>
+                  <li>Carbs: Remaining calories</li>
+                </ul>
+              </div>
+
+              <!-- Secondary CTA inside results -->
+              <a
+                href="https://example.com"
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex w-full items-center justify-center rounded-2xl px-4 py-3 text-sm font-semibold
+                       bg-white/10 ring-1 ring-white/15 hover:bg-white/15 transition text-white"
+              >
+                Want this dialed in? Apply for coaching →
+              </a>
             </div>
 
-            <div class="bg-gray-50 rounded-lg p-4 text-sm text-gray-600">
-              <p class="font-semibold mb-2">Formula Used:</p>
-              <ul class="space-y-1 list-disc list-inside">
-                <li>Protein: 1g per lb (capped at 40% of calories)</li>
-                <li>Fat: 0.35g per lb of body weight</li>
-                <li>Carbs: Remaining calories</li>
-              </ul>
-            </div>
+            <p class="text-xs text-slate-500 pt-2">
+              © <span id="year"></span> Chasing Change — consistency beats intensity.
+            </p>
           </div>
-
-          <p class="text-xs text-gray-400 pt-2">
-            Note: This is an estimation tool (not medical advice).
-          </p>
         </div>
       </div>
     </div>
 
     <script>
+      // Footer year
+      document.getElementById("year").textContent = new Date().getFullYear();
+
       // State
       let goal = "maintain";
 
@@ -213,14 +317,17 @@
       function setGoal(newGoal) {
         goal = newGoal;
 
-        // Button styling
+        // Button styling (brand version)
         document.querySelectorAll(".goalBtn").forEach(btn => {
           const isActive = btn.dataset.goal === goal;
-          btn.className =
-            "goalBtn flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition " +
-            (isActive
-              ? "border-indigo-500 bg-indigo-50"
-              : "border-gray-200 hover:border-gray-300");
+
+          if (isActive) {
+            btn.className =
+              "goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl transition ring-2 ring-cc-lime/60 bg-cc-lime/10";
+          } else {
+            btn.className =
+              "goalBtn flex flex-col items-center gap-2 p-4 rounded-2xl transition ring-1 ring-white/10 bg-slate-950/40 hover:bg-slate-950/70";
+          }
         });
 
         // Weekly change UI
