@@ -103,6 +103,7 @@
 
           <div class="space-y-5">
             <!-- Body Weight -->
+          
             <div>
               <label class="block text-sm font-semibold mb-2">Body Weight (lbs)</label>
               <input
@@ -115,6 +116,55 @@
               />
               <p id="weightError" class="hidden mt-2 text-sm text-red-600">Please enter a valid weight.</p>
             </div>
+
+            <div>
+  <label class="block text-sm font-semibold mb-2">Sex</label>
+  <select
+    id="sex"
+    class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+           focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+  >
+    <option value="male" selected>Male</option>
+    <option value="female">Female</option>
+  </select>
+</div>
+
+            <div>
+  <label class="block text-sm font-semibold mb-2">Age</label>
+  <input
+    id="age"
+    type="number"
+    inputmode="numeric"
+    placeholder="e.g. 25"
+    class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+           focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+  />
+  <p id="ageError" class="hidden mt-2 text-sm text-red-600">Please enter a valid age.</p>
+</div>
+
+            <div>
+  <label class="block text-sm font-semibold mb-2">Height</label>
+  <div class="grid grid-cols-2 gap-3">
+    <input
+      id="heightFt"
+      type="number"
+      inputmode="numeric"
+      placeholder="Feet (e.g. 5)"
+      class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+             focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+    />
+    <input
+      id="heightIn"
+      type="number"
+      inputmode="numeric"
+      placeholder="Inches (e.g. 10)"
+      class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+             focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+    />
+  </div>
+  <p id="heightError" class="hidden mt-2 text-sm text-red-600">Please enter a valid height.</p>
+</div>
+
 
             <!-- Activity Level -->
             <div>
@@ -208,9 +258,9 @@
               </div>
 
               <div id="proteinCapBox" class="hidden rounded-2xl p-4 text-sm ring-1 ring-amber-300/60 bg-amber-50 text-amber-900">
-                <p class="font-semibold">⚠️ Protein capped at 40%</p>
+<p class="font-semibold">⚠️ Protein capped</p>
                 <p class="mt-1">
-                  Calories are too low to support 1g protein per lb.
+                  Protein was capped by calories (40%) or the 200g limit.
                   Protein set to <span id="proteinPctOut">0</span>% of total calories.
                 </p>
               </div>
@@ -274,6 +324,15 @@
       let goal = "maintain";
 
       // Elements
+
+      const sexEl = document.getElementById("sex");
+const ageEl = document.getElementById("age");
+const heightFtEl = document.getElementById("heightFt");
+const heightInEl = document.getElementById("heightIn");
+
+const ageErrorEl = document.getElementById("ageError");
+const heightErrorEl = document.getElementById("heightError");
+
       const weightEl = document.getElementById("weight");
       const weightErrorEl = document.getElementById("weightError");
       const activityEl = document.getElementById("activityLevel");
@@ -298,13 +357,14 @@
       const fatShareOut = document.getElementById("fatShareOut");
 
       // Helpers
-      const activityMultipliers = {
-        sedentary: 13,
-        light: 14,
-        moderate: 15,
-        active: 16,
-        veryActive: 17
-      };
+     const activityFactors = {
+  sedentary: 1.2,
+  light: 1.375,
+  moderate: 1.55,
+  active: 1.725,
+  veryActive: 1.9
+};
+
 
       function setGoal(newGoal) {
         goal = newGoal;
@@ -356,14 +416,54 @@
 
       function calculate() {
         const bodyWeight = parseFloat(weightEl.value);
-        if (!bodyWeight || bodyWeight <= 0) {
-          weightErrorEl.classList.remove("hidden");
-          resultsEl.classList.add("hidden");
-          return;
-        }
+       if (!bodyWeight || bodyWeight <= 0) {
+  weightErrorEl.classList.remove("hidden");
+  ageErrorEl.classList.add("hidden");
+  heightErrorEl.classList.add("hidden");
+  resultsEl.classList.add("hidden");
+  return;
+}
         weightErrorEl.classList.add("hidden");
 
-        const tdee = bodyWeight * activityMultipliers[activityEl.value];
+// Validate age + height
+const age = parseFloat(ageEl.value);
+const ft = parseFloat(heightFtEl.value);
+const inch = parseFloat(heightInEl.value);
+
+let valid = true;
+
+// Age validation
+if (!age || age < 13 || age > 90) {
+  ageErrorEl.classList.remove("hidden");
+  valid = false;
+} else {
+  ageErrorEl.classList.add("hidden");
+}
+
+// Height validation
+if (!ft || ft < 4 || ft > 7 || isNaN(inch) || inch < 0 || inch >= 12) {
+  heightErrorEl.classList.remove("hidden");
+  valid = false;
+} else {
+  heightErrorEl.classList.add("hidden");
+}
+
+if (!valid) {
+  resultsEl.classList.add("hidden");
+  return;
+}
+
+// Convert units for Mifflin–St Jeor
+const weightKg = bodyWeight * 0.45359237;
+const heightCm = (ft * 12 + inch) * 2.54;
+
+// BMR (Mifflin–St Jeor)
+const sex = sexEl.value;
+const base = (10 * weightKg) + (6.25 * heightCm) - (5 * age);
+const bmr = sex === "male" ? (base + 5) : (base - 161);
+
+// TDEE = BMR × activity factor
+const tdee = bmr * activityFactors[activityEl.value];
 
         let targetCalories = tdee;
         const weeklyChangeNum = parseFloat(weeklyEl.value || "0");
@@ -389,6 +489,8 @@ const proteinPercentage = Math.round((protein * 4 / targetCalories) * 100);
         const fatCals = fat * 9;
         const carbCals = targetCalories - proteinCals - fatCals;
         const carbs = carbCals / 4;
+        const carbsSafe = Math.max(0, carbs);
+
 
         const caloriesR = Math.round(targetCalories);
         const tdeeR = Math.round(tdee);
