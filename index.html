@@ -56,6 +56,32 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
+
+      <style>
+  /* CENTER AND SPACE */
+  main {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  /* SIMPLIFY HEADER */
+  header h1 + h1 {
+    display: none; /* removes redundant title line */
+  }
+
+  /* RESULTS STYLING */
+  #results > .rounded-2xl {
+    border-width: 2px;
+    border-color: #77d770;
+  }
+
+  /* BETTER FIELD FOCUS */
+  input:focus, select:focus {
+    ring-width: 2px !important;
+    ring-color: #77d770 !important;
+  }
+</style>
+
     </style>
   </head>
 
