@@ -399,10 +399,12 @@
                 class="hidden rounded-2xl p-4 text-sm ring-1 ring-amber-300/60 bg-amber-50 text-amber-900"
               >
                 <p class="font-semibold">⚠️ Protein capped</p>
-                <p class="mt-1">
-Protein was capped at the lower of 180g or 40% of total calories.
-                  <span id="proteinPctOut">0</span>% of total calories.
-                </p>
+               <p class="mt-1">
+  Protein was capped to keep your macros balanced and sustainable
+  based on your goal and calorie intake
+  (<span id="proteinPctOut">0</span>% of total calories).
+</p>
+
               </div>
 
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
@@ -671,7 +673,7 @@ const proteinTarget = weightLb * proteinPerLb;
 // Hard cap to prevent silly outputs
 const proteinHardCap = 200;
 
-// Protein calorie cap (still useful so protein doesn't eat the whole diet)
+// Protein calorie cap
 const proteinCalCap = (targetCalories * 0.35) / 4; // 35% cap across goals (tweakable)
 
 let protein = Math.min(proteinTarget, proteinCalCap, proteinHardCap);
