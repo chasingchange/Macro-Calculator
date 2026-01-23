@@ -74,9 +74,6 @@
     border-color: #77d770;
   }
 </style>
-
-
-    </style>
   </head>
 
   <body class="min-h-screen bg-cc-bg text-cc-text font-body">
@@ -393,6 +390,19 @@
                   <span class="opacity-60">(BMR × activity)</span>
                 </p>
               </div>
+<div
+  id="minCalWarning"
+  class="hidden rounded-2xl p-4 text-sm ring-1 ring-red-300/60 bg-red-50 text-red-900"
+>
+  <p class="font-semibold">⚠️ Calories raised to daily minimum</p>
+  <p class="mt-1">
+    Based on your goal settings, your target would have been
+    <span class="font-bold"><span id="requestedCaloriesOut">0</span> calories</span>,
+    which is below the daily minimum for your selected sex
+    (<span class="font-bold"><span id="minCaloriesOut">0</span> calories</span>).
+    Calories were adjusted upward for safety and sustainability.
+  </p>
+</div>
 
               <div
                 id="proteinCapBox"
@@ -482,6 +492,7 @@
       const sexEl = document.getElementById("sex");
       const ageEl = document.getElementById("age");
 
+      
       const weightUSWrap = document.getElementById("weightUSWrap");
       const weightMetricWrap = document.getElementById("weightMetricWrap");
       const weightLbEl = document.getElementById("weightLb");
@@ -505,6 +516,10 @@
 
       const resultsEl = document.getElementById("results");
       const proteinCapBox = document.getElementById("proteinCapBox");
+
+      const minCalWarningEl = document.getElementById("minCalWarning");
+      const requestedCaloriesOut = document.getElementById("requestedCaloriesOut");
+      const minCaloriesOut = document.getElementById("minCaloriesOut");
 
       // Outputs
       const caloriesOut = document.getElementById("caloriesOut");
@@ -658,9 +673,24 @@
         if (goal === "lose") targetCalories = tdee - weeklyChangeLb * 500; // ~500/day per 1 lb/week
         if (goal === "gain") targetCalories = tdee + weeklyChangeLb * 300;
 
-        // Keep targets sane
-        targetCalories = Math.max(1200, targetCalories);
+// Keep targets sane
+// --- Daily minimum calories (Male 1500 / Female 1200) + warning ---
+const minCalories = isMale ? 1500 : 1200;
 
+const requestedCalories = targetCalories; // what the goal math produced
+const wasBelowMin = requestedCalories < minCalories;
+
+// Enforce minimum
+targetCalories = Math.max(minCalories, targetCalories);
+
+// Show/hide warning
+if (wasBelowMin) {
+  requestedCaloriesOut.textContent = Math.round(requestedCalories);
+  minCaloriesOut.textContent = minCalories;
+  show(minCalWarningEl);
+} else {
+  hide(minCalWarningEl);
+}
         // --- MACROS ---
      // --- PROTEIN (priority: ~1g/lb+, hard caps applied) ---
 const proteinPerLb =
