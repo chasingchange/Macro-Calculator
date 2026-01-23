@@ -653,18 +653,32 @@
         // Keep targets sane
         targetCalories = Math.max(1200, targetCalories);
 
-       // --- MACROS (goal-based) ---
-const proteinMult = goal === "lose" ? 1.0 : goal === "gain" ? 0.85 : 0.9;
+      // --- MACROS ---
+        // --- MACROS ---
+// Protein: 1g per lb, capped at 180g OR 40% of calories (whichever is lower)
+const proteinTarget = weightLb;
 
-// More noticeable fat change by goal + a sensible floor
-const fatMult = goal === "lose" ? 0.25 : goal === "gain" ? 0.45 : 0.35;
+// 40% of calories converted to grams
+const proteinCalCap = (targetCalories * 0.40) / 4;
 
-const maxProteinFromCalories = (targetCalories * 0.40) / 4; // cap protein at 40% calories
-const proteinCap = 200;
+// Absolute protein cap
+const proteinHardCap = 180;
 
-const proteinTarget = weightLb * proteinMult;
-const protein = Math.min(proteinTarget, maxProteinFromCalories, proteinCap);
+// Final protein value
+const protein = Math.min(proteinTarget, proteinCalCap, proteinHardCap);
 const proteinCapped = protein < proteinTarget;
+
+// Fat: goal-based, with a sensible floor
+const fatMult = goal === "lose" ? 0.25 : goal === "gain" ? 0.45 : 0.35;
+const fatTarget = weightLb * fatMult;
+const fatMin = 45;
+const fat = Math.max(fatMin, fatTarget);
+
+// Carbs fill remaining calories
+const proteinCals = protein * 4;
+const fatCals = fat * 9;
+const carbCals = targetCalories - proteinCals - fatCals;
+const carbs = Math.max(0, carbCals / 4);
 
 // Fat target with a minimum floor so it isn't too low on aggressive cuts
 const fatTarget = weightLb * fatMult;
