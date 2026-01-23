@@ -147,7 +147,10 @@
       </header>
 
       <!-- App Card -->
-      <main class="rounded-3xl bg-cc-card shadow-soft ring-1 ring-black/5 overflow-hidden">
+      <!-- App Card -->
+      <div class="flex justify-center">
+        <main class="w-full max-w-xl rounded-3xl bg-cc-card shadow-soft ring-1 ring-black/5 overflow-hidden">
+      </div>
         <div class="p-5 sm:p-8">
           <div class="flex items-start gap-3 mb-6">
             <div class="w-10 h-10 rounded-xl bg-cc-outline/15 ring-1 ring-cc-outline/40 flex items-center justify-center">
@@ -288,19 +291,21 @@
                 class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
                        focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
               >
-                <option value="sedentary">Sedentary — desk job, <5k steps/day, little exercise</option>
-                <option value="light">Light — 5–7k steps/day + 1–3 workouts/week</option>
-                <option value="moderate" selected>Moderate — 7–10k steps/day + 3–5 workouts/week</option>
-                <option value="active">Active — 10–14k steps/day + 5–6 workouts/week</option>
-                <option value="veryActive">Very Active — 14k+ steps/day + hard training / physical job</option>
+                <option value="sedentary">Sedentary — desk job, little exercise</option>
+<option value="light">Light — 1–3 workouts/week</option>
+<option value="moderate" selected>Moderate — 3–5 workouts/week</option>
+<option value="active">Active — 5–6 workouts/week</option>
+<option value="veryActive">Very Active — hard training / physical job</option>
+
               </select>
 
               <div class="mt-2 rounded-2xl p-4 bg-black/5 ring-1 ring-black/5 text-sm">
                 <p class="font-semibold mb-1">How to choose (quick rule):</p>
                 <ul class="list-disc list-inside opacity-90 space-y-1">
-                  <li>If your job is mostly sitting, start at <span class="font-semibold">Sedentary</span> or <span class="font-semibold">Light</span>.</li>
-                  <li>If you lift 3–5x/week and walk daily, <span class="font-semibold">Moderate</span> is usually right.</li>
-                  <li><span class="font-semibold">Active/Very Active</span> is for high steps + frequent training, not just “I go hard sometimes.”</li>
+                 <li>If your job is mostly sitting, start at <span class="font-semibold">Sedentary</span> or <span class="font-semibold">Light</span>.</li>
+<li>If you train 3–5x/week, <span class="font-semibold">Moderate</span> is usually right.</li>
+<li><span class="font-semibold">Active/Very Active</span> is for frequent training and/or physical work—not just “I go hard sometimes.”</li>
+
                 </ul>
               </div>
             </div>
@@ -387,7 +392,7 @@
                 </p>
               </div>
 
-              <div class="grid grid-cols-3 gap-3 sm:gap-4">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                 <div class="rounded-2xl p-4 ring-1 ring-black/10 bg-[#77d770]/20">
                   <p class="text-sm font-semibold mb-1 opacity-80">Protein</p>
                   <p class="text-2xl sm:text-3xl font-extrabold">
@@ -639,26 +644,30 @@
         // Keep targets sane
         targetCalories = Math.max(1200, targetCalories);
 
-        // --- MACROS (goal-based so more than carbs changes) ---
-        // Protein multipliers (g/lb)
-        const proteinMult = goal === "lose" ? 1.0 : goal === "gain" ? 0.85 : 0.9;
-        // Fat multipliers (g/lb)
-        const fatMult = goal === "lose" ? 0.30 : goal === "gain" ? 0.40 : 0.35;
+       // --- MACROS (goal-based) ---
+const proteinMult = goal === "lose" ? 1.0 : goal === "gain" ? 0.85 : 0.9;
 
-        const maxProteinFromCalories = (targetCalories * 0.40) / 4; // cap protein at 40% calories
-        const proteinCap = 200;
+// More noticeable fat change by goal + a sensible floor
+const fatMult = goal === "lose" ? 0.25 : goal === "gain" ? 0.45 : 0.35;
 
-        const proteinTarget = weightLb * proteinMult;
-        const protein = Math.min(proteinTarget, maxProteinFromCalories, proteinCap);
+const maxProteinFromCalories = (targetCalories * 0.40) / 4; // cap protein at 40% calories
+const proteinCap = 200;
 
-        const proteinCapped = protein < proteinTarget;
+const proteinTarget = weightLb * proteinMult;
+const protein = Math.min(proteinTarget, maxProteinFromCalories, proteinCap);
+const proteinCapped = protein < proteinTarget;
 
-        const fat = weightLb * fatMult;
+// Fat target with a minimum floor so it isn't too low on aggressive cuts
+const fatTarget = weightLb * fatMult;
+const fatMin = 45; // grams/day floor
+const fat = Math.max(fatMin, fatTarget);
 
-        const proteinCals = protein * 4;
-        const fatCals = fat * 9;
-        const carbCals = targetCalories - proteinCals - fatCals;
-        const carbs = Math.max(0, carbCals / 4);
+// Carbs fill remaining calories (never negative)
+const proteinCals = protein * 4;
+const fatCals = fat * 9;
+const carbCals = targetCalories - proteinCals - fatCals;
+const carbs = Math.max(0, carbCals / 4);
+
 
         // Round outputs
         const caloriesR = Math.round(targetCalories);
