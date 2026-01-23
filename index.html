@@ -651,7 +651,7 @@
 
         const tdee = bmr * activityFactors[activityEl.value];
 
-        // Weekly change adjustment
+               // Weekly change adjustment
         const weeklyChangeLb = parseFloat(weeklyEl.value || "0");
         let targetCalories = tdee;
 
@@ -661,67 +661,61 @@
         // Keep targets sane
         targetCalories = Math.max(1200, targetCalories);
 
-      // --- MACROS ---
-// Protein: grams per lb varies by goal (simple + practical)
-const proteinPerLb =
-  goal === "gain" ? 1.00 :
-  goal === "lose" ? 1.00 :
-  0.90;
+        // --- MACROS ---
+        // Protein: grams per lb varies by goal (simple + practical)
+        const proteinPerLb =
+          goal === "gain" ? 1.00 :
+          goal === "lose" ? 1.00 :
+          0.90;
 
-const proteinTarget = weightLb * proteinPerLb;
+        const proteinTarget = weightLb * proteinPerLb;
 
-// Hard cap to prevent silly outputs
-const proteinHardCap = 200;
+        // Hard cap to prevent silly outputs
+        const proteinHardCap = 200;
 
-// Protein calorie cap
-const weeklyChangeLb = parseFloat(weeklyEl.value || "0");
+        // Protein calorie cap
+        const proteinCapPct =
+          goal === "lose" && weeklyChangeLb >= 1 ? 0.40 : 0.35;
 
-const proteinCapPct =
-  goal === "lose" && weeklyChangeLb >= 1 ? 0.40 : 0.35;
+        const proteinCalCap =
+          goal === "gain"
+            ? Infinity
+            : (targetCalories * proteinCapPct) / 4;
 
-const proteinCalCap =
-  goal === "gain"
-    ? Infinity
-    : (targetCalories * proteinCapPct) / 4;
+        let protein = Math.min(proteinTarget, proteinCalCap, proteinHardCap);
+        const proteinCapped = protein < proteinTarget;
 
-let protein = Math.min(proteinTarget, proteinCalCap, proteinHardCap);
-const proteinCapped = protein < proteinTarget;
+        // Fat: set primarily as a % of calories
+        const fatPct =
+          goal === "lose" ? 0.25 :
+          goal === "gain" ? 0.30 :
+          0.28;
 
+        const fatMin = 45; // floor for hormones/adherence
+        const fatCalTarget = targetCalories * fatPct;
 
-// Fat: set primarily as a % of calories (this is the big fix)
-const fatPct =
-  goal === "lose" ? 0.25 :
-  goal === "gain" ? 0.30 :
-  0.28;
+        let fat = Math.max(fatMin, fatCalTarget / 9);
 
-const fatMin = 45; // floor for hormones/adherence
-const fatCalTarget = targetCalories * fatPct;
+        // ---- Feasibility guard: if protein+fat exceed calories, reduce fat first ----
+        let proteinCals = protein * 4;
+        let fatCals = fat * 9;
 
-let fat = Math.max(fatMin, fatCalTarget / 9);
+        if (proteinCals + fatCals > targetCalories) {
+          const remainingForFat = targetCalories - proteinCals;
+          fat = Math.max(fatMin, remainingForFat / 9);
+          fatCals = fat * 9;
 
+          // If still impossible (extreme low calories), reduce protein too (last resort)
+          if (proteinCals + fatCals > targetCalories) {
+            const remainingForProtein = targetCalories - fatCals;
+            protein = Math.max(0, remainingForProtein / 4);
+            proteinCals = protein * 4;
+          }
+        }
 
-// ---- Feasibility guard: if protein+fat exceed calories, reduce fat first ----
-let proteinCals = protein * 4;
-let fatCals = fat * 9;
-
-if (proteinCals + fatCals > targetCalories) {
-  const remainingForFat = targetCalories - proteinCals;
-  fat = Math.max(fatMin, remainingForFat / 9);
-  fatCals = fat * 9;
-
-  // If still impossible (extreme low calories), reduce protein too (last resort)
-  if (proteinCals + fatCals > targetCalories) {
-    const remainingForProtein = targetCalories - fatCals;
-    protein = Math.max(0, remainingForProtein / 4);
-    proteinCals = protein * 4;
-  }
-}
-
-// Carbs fill remaining calories
-const carbCals = targetCalories - proteinCals - fatCals;
-const carbs = Math.max(0, carbCals / 4);
-
-
+        // Carbs fill remaining calories
+        const carbCals = targetCalories - proteinCals - fatCals;
+        const carbs = Math.max(0, carbCals / 4);
 
 
         // Round outputs
