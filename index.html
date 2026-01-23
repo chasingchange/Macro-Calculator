@@ -1,8 +1,8 @@
 diff --git a/index.html b/index.html
-index 6a3e4ee86092b47d1a84b1deaf29b3d1c2fbe9ae..cafef031d1f1bd16671d7de25c93408075540526 100644
+index 6a3e4ee86092b47d1a84b1deaf29b3d1c2fbe9ae..9821d86401bc62acc698054a97ba939254dfe131 100644
 --- a/index.html
 +++ b/index.html
-@@ -1,77 +1,93 @@
+@@ -1,124 +1,138 @@
  <!doctype html>
  <html lang="en">
    <head>
@@ -33,6 +33,11 @@ index 6a3e4ee86092b47d1a84b1deaf29b3d1c2fbe9ae..cafef031d1f1bd16671d7de25c934080
                  card: "#ffffff"
                }
              },
++            fontFamily: {
++              body: ["Muli", "Mulish", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
++              heading: ["Raleway", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
++              brand: ["Museo Moderno", "Mueso Moderno", "Raleway", "sans-serif"]
++            },
              boxShadow: {
                soft: "0 10px 30px rgba(7,31,53,0.10)",
                outline: "0 0 0 1px rgba(119,215,112,0.55)"
@@ -48,18 +53,12 @@ index 6a3e4ee86092b47d1a84b1deaf29b3d1c2fbe9ae..cafef031d1f1bd16671d7de25c934080
 +      body {
 +        -webkit-font-smoothing: antialiased;
 +        -moz-osx-font-smoothing: grayscale;
-+        font-family: "Muli", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-+      }
-+      h1, h2, h3, h4, h5, h6 {
-+        font-family: "Raleway", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-+      }
-+      .brand-title {
-+        font-family: "Museo Moderno", "Mueso Moderno", "Raleway", sans-serif;
 +      }
      </style>
    </head>
  
-   <body class="min-h-screen bg-cc-bg text-cc-text">
+-  <body class="min-h-screen bg-cc-bg text-cc-text">
++  <body class="min-h-screen bg-cc-bg text-cc-text font-body">
      <div class="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
        <!-- Header -->
        <header class="mb-6 sm:mb-8">
@@ -72,10 +71,11 @@ index 6a3e4ee86092b47d1a84b1deaf29b3d1c2fbe9ae..cafef031d1f1bd16671d7de25c934080
  
            <div class="min-w-0">
 -            <p class="text-xs uppercase tracking-[0.25em] opacity-70">
-+            <p class="brand-title text-xs uppercase tracking-[0.25em] opacity-70">
++            <p class="text-xs uppercase tracking-[0.25em] opacity-70 font-brand">
                Chasing Change
              </p>
-             <h1 class="text-2xl sm:text-3xl font-extrabold leading-tight">
+-            <h1 class="text-2xl sm:text-3xl font-extrabold leading-tight">
++            <h1 class="text-2xl sm:text-3xl font-extrabold leading-tight font-heading">
                Macro Calculator
              </h1>
              <p class="text-sm mt-1 italic opacity-80">
@@ -98,8 +98,82 @@ index 6a3e4ee86092b47d1a84b1deaf29b3d1c2fbe9ae..cafef031d1f1bd16671d7de25c934080
            >
              Apply for Coaching →
            </a>
-@@ -252,67 +268,67 @@
-                 <h3 class="text-base sm:text-lg font-bold mb-2">Daily Target</h3>
+         </div>
+       </header>
+ 
+       <!-- App Card -->
+       <main class="rounded-3xl bg-cc-card shadow-soft ring-1 ring-black/5 overflow-hidden">
+         <div class="p-5 sm:p-8">
+           <div class="flex items-start gap-3 mb-6">
+             <div class="w-10 h-10 rounded-xl bg-cc-outline/15 ring-1 ring-cc-outline/40 flex items-center justify-center">
+               <!-- calculator icon -->
+               <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2">
+                 <path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+                 <path d="M9 6h6"/>
+                 <path d="M9 10h6"/>
+                 <path d="M9 14h2"/>
+                 <path d="M13 14h2"/>
+                 <path d="M9 18h2"/>
+                 <path d="M13 18h2"/>
+               </svg>
+             </div>
+ 
+             <div>
+-              <h2 class="text-lg sm:text-xl font-bold">Set your targets</h2>
++              <h2 class="text-lg sm:text-xl font-bold font-heading">Set your targets</h2>
+               <p class="text-sm opacity-80">Enter your weight, pick your goal, and get macros in seconds.</p>
+             </div>
+           </div>
+ 
+           <div class="space-y-5">
+             <!-- Body Weight -->
+           
+             <div>
+               <label class="block text-sm font-semibold mb-2">Body Weight (lbs)</label>
+               <input
+                 id="weight"
+                 type="number"
+                 inputmode="decimal"
+                 placeholder="e.g. 165"
+                 class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+                        focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+               />
+               <p id="weightError" class="hidden mt-2 text-sm text-red-600">Please enter a valid weight.</p>
+             </div>
+ 
+             <div>
+   <label class="block text-sm font-semibold mb-2">Sex</label>
+   <select
+     id="sex"
+     class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+@@ -227,102 +241,102 @@
+                 Weight Loss per Week (lbs)
+               </label>
+               <select
+                 id="weeklyChange"
+                 class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+                        focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+               ></select>
+               <p class="text-xs opacity-70 mt-2">
+                 Tip: If adherence is hard, go smaller and stay consistent.
+               </p>
+             </div>
+ 
+             <!-- Calculate Button -->
+             <button
+               id="calcBtn"
+               type="button"
+               class="w-full rounded-2xl py-4 font-bold
+                      bg-cc-outline text-cc-text hover:opacity-90 transition shadow-outline"
+             >
+               Calculate Macros
+             </button>
+ 
+             <!-- Results -->
+             <div id="results" class="hidden mt-6 space-y-4">
+               <div class="rounded-2xl p-5 ring-1 ring-black/10 bg-white">
+-                <h3 class="text-base sm:text-lg font-bold mb-2">Daily Target</h3>
++                <h3 class="text-base sm:text-lg font-bold mb-2 font-heading">Daily Target</h3>
                  <p class="text-3xl sm:text-4xl font-extrabold">
                    <span id="caloriesOut">0</span>
                    <span class="text-xl sm:text-2xl font-bold opacity-70"> calories</span>
@@ -153,7 +227,8 @@ index 6a3e4ee86092b47d1a84b1deaf29b3d1c2fbe9ae..cafef031d1f1bd16671d7de25c934080
                </div>
  
                <div class="rounded-2xl p-4 text-sm ring-1 ring-black/10 bg-white">
-                 <p class="font-bold mb-2">Formula Used</p>
+-                <p class="font-bold mb-2">Formula Used</p>
++                <p class="font-bold mb-2 font-heading">Formula Used</p>
                  <ul class="space-y-1 list-disc list-inside opacity-90">
                    <li>Protein: 1g per lb (capped at 40% of calories)</li>
                    <li>Fat: 0.35g per lb of body weight</li>
@@ -169,7 +244,17 @@ index 6a3e4ee86092b47d1a84b1deaf29b3d1c2fbe9ae..cafef031d1f1bd16671d7de25c934080
                         text-sm font-bold bg-cc-text text-white hover:opacity-95 transition"
                >
                  Want this dialed in? Apply for coaching →
-@@ -332,50 +348,51 @@
+               </a>
+             </div>
+ 
+             <p class="text-xs pt-4 text-center opacity-60">
+               © 2026 Chasing Change — consistency beats intensity
+             </p>
+           </div>
+         </div>
+       </main>
+     </div>
+@@ -332,50 +346,51 @@
        let goal = "maintain";
  
        // Elements
@@ -221,7 +306,7 @@ index 6a3e4ee86092b47d1a84b1deaf29b3d1c2fbe9ae..cafef031d1f1bd16671d7de25c934080
  
          // Button styling
          document.querySelectorAll(".goalBtn").forEach(btn => {
-@@ -479,56 +496,58 @@ const tdee = bmr * activityFactors[activityEl.value];
+@@ -479,56 +494,58 @@ const tdee = bmr * activityFactors[activityEl.value];
          if (goal === "lose") targetCalories = tdee - weeklyChangeNum * 500;
          if (goal === "gain") targetCalories = tdee + weeklyChangeNum * 300;
  
