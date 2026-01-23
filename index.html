@@ -311,7 +311,7 @@
                 <ul class="list-disc list-inside opacity-90 space-y-1">
                  <li>If your job is mostly sitting, start at <span class="font-semibold">Sedentary</span> or <span class="font-semibold">Light</span>.</li>
 <li>If you train 3–5x/week, <span class="font-semibold">Moderate</span> is usually right.</li>
-<li><span class="font-semibold">Active/Very Active</span> is for frequent training and/or physical work.”</li>
+<li><span class="font-semibold">Active/Very Active</span> is for frequent training and/or physical work.</li>
 
                 </ul>
               </div>
@@ -394,7 +394,7 @@
               >
                 <p class="font-semibold">⚠️ Protein capped</p>
                 <p class="mt-1">
-                  Protein was capped by calories (40%) or the 200g limit. Protein is
+Protein was capped at the lower of 180g or 40% of total calories.
                   <span id="proteinPctOut">0</span>% of total calories.
                 </p>
               </div>
@@ -654,7 +654,6 @@
         targetCalories = Math.max(1200, targetCalories);
 
       // --- MACROS ---
-        // --- MACROS ---
 // Protein: 1g per lb, capped at 180g OR 40% of calories (whichever is lower)
 const proteinTarget = weightLb;
 
@@ -680,16 +679,6 @@ const fatCals = fat * 9;
 const carbCals = targetCalories - proteinCals - fatCals;
 const carbs = Math.max(0, carbCals / 4);
 
-// Fat target with a minimum floor so it isn't too low on aggressive cuts
-const fatTarget = weightLb * fatMult;
-const fatMin = 45; // grams/day floor
-const fat = Math.max(fatMin, fatTarget);
-
-// Carbs fill remaining calories (never negative)
-const proteinCals = protein * 4;
-const fatCals = fat * 9;
-const carbCals = targetCalories - proteinCals - fatCals;
-const carbs = Math.max(0, carbCals / 4);
 
 
         // Round outputs
