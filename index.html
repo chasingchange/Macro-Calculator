@@ -664,7 +664,7 @@
       // --- MACROS ---
 // Protein: grams per lb varies by goal (simple + practical)
 const proteinPerLb =
-  goal === "gain" ? 0.85 :
+  goal === "gain" ? 1.00 :
   goal === "lose" ? 1.00 :
   0.90;
 
@@ -674,7 +674,15 @@ const proteinTarget = weightLb * proteinPerLb;
 const proteinHardCap = 200;
 
 // Protein calorie cap
-const proteinCalCap = (targetCalories * 0.35) / 4; // 35% cap across goals (tweakable)
+const weeklyChangeLb = parseFloat(weeklyEl.value || "0");
+
+const proteinCapPct =
+  goal === "lose" && weeklyChangeLb >= 1 ? 0.40 : 0.35;
+
+const proteinCalCap =
+  goal === "gain"
+    ? Infinity
+    : (targetCalories * proteinCapPct) / 4;
 
 let protein = Math.min(proteinTarget, proteinCalCap, proteinHardCap);
 const proteinCapped = protein < proteinTarget;
