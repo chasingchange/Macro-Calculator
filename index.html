@@ -660,34 +660,57 @@ Protein was capped at the lower of 180g or 40% of total calories.
         targetCalories = Math.max(1200, targetCalories);
 
       // --- MACROS ---
-// --- PROTEIN ---
-const proteinTarget = weightLb;
-const proteinHardCap = 180;
+// Protein: grams per lb varies by goal (simple + practical)
+const proteinPerLb =
+  goal === "gain" ? 0.85 :
+  goal === "lose" ? 1.00 :
+  0.90;
 
-// Only apply 40% calorie cap on cut / maintain
-const proteinCalCap =
-  goal === "gain"
-    ? Infinity
-    : (targetCalories * 0.40) / 4;
+const proteinTarget = weightLb * proteinPerLb;
 
-const protein = Math.min(proteinTarget, proteinCalCap, proteinHardCap);
+// Hard cap to prevent silly outputs
+const proteinHardCap = 200;
+
+// Protein calorie cap (still useful so protein doesn't eat the whole diet)
+const proteinCalCap = (targetCalories * 0.35) / 4; // 35% cap across goals (tweakable)
+
+let protein = Math.min(proteinTarget, proteinCalCap, proteinHardCap);
 const proteinCapped = protein < proteinTarget;
 
 
-// Fat: goal-based, with a sensible floor
-const fatMult =
+// Fat: set primarily as a % of calories (this is the big fix)
+const fatPct =
   goal === "lose" ? 0.25 :
   goal === "gain" ? 0.30 :
-  0.35;
-const fatTarget = weightLb * fatMult;
-const fatMin = 45;
-const fat = Math.max(fatMin, fatTarget);
+  0.28;
+
+const fatMin = 45; // floor for hormones/adherence
+const fatCalTarget = targetCalories * fatPct;
+
+let fat = Math.max(fatMin, fatCalTarget / 9);
+
+
+// ---- Feasibility guard: if protein+fat exceed calories, reduce fat first ----
+let proteinCals = protein * 4;
+let fatCals = fat * 9;
+
+if (proteinCals + fatCals > targetCalories) {
+  const remainingForFat = targetCalories - proteinCals;
+  fat = Math.max(fatMin, remainingForFat / 9);
+  fatCals = fat * 9;
+
+  // If still impossible (extreme low calories), reduce protein too (last resort)
+  if (proteinCals + fatCals > targetCalories) {
+    const remainingForProtein = targetCalories - fatCals;
+    protein = Math.max(0, remainingForProtein / 4);
+    proteinCals = protein * 4;
+  }
+}
 
 // Carbs fill remaining calories
-const proteinCals = protein * 4;
-const fatCals = fat * 9;
 const carbCals = targetCalories - proteinCals - fatCals;
 const carbs = Math.max(0, carbCals / 4);
+
 
 
 
