@@ -660,21 +660,25 @@ Protein was capped at the lower of 180g or 40% of total calories.
         targetCalories = Math.max(1200, targetCalories);
 
       // --- MACROS ---
-// Protein: 1g per lb, capped at 180g OR 40% of calories (whichever is lower)
+// --- PROTEIN ---
 const proteinTarget = weightLb;
-
-// 40% of calories converted to grams
-const proteinCalCap = (targetCalories * 0.40) / 4;
-
-// Absolute protein cap
 const proteinHardCap = 180;
 
-// Final protein value
+// Only apply 40% calorie cap on cut / maintain
+const proteinCalCap =
+  goal === "gain"
+    ? Infinity
+    : (targetCalories * 0.40) / 4;
+
 const protein = Math.min(proteinTarget, proteinCalCap, proteinHardCap);
 const proteinCapped = protein < proteinTarget;
 
+
 // Fat: goal-based, with a sensible floor
-const fatMult = goal === "lose" ? 0.25 : goal === "gain" ? 0.45 : 0.35;
+const fatMult =
+  goal === "lose" ? 0.25 :
+  goal === "gain" ? 0.30 :
+  0.35;
 const fatTarget = weightLb * fatMult;
 const fatMin = 45;
 const fat = Math.max(fatMin, fatTarget);
