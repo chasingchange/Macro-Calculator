@@ -21,7 +21,6 @@
     />
 
     <script>
-      // Brand tokens
       tailwind.config = {
         theme: {
           extend: {
@@ -41,6 +40,7 @@
             boxShadow: {
               soft: "0 10px 30px rgba(7,31,53,0.10)",
               outline: "0 0 0 1px rgba(119,215,112,0.55)",
+              glow: "0 10px 50px rgba(119,215,112,0.25)",
             },
           },
         },
@@ -60,32 +60,90 @@
   </head>
 
   <body class="min-h-screen bg-cc-bg text-cc-text font-body">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-      <!-- Header -->
-      <header class="mb-6 sm:mb-8">
-        <div class="flex items-center gap-4">
-          <img src="Chasing Change Logo2.png" alt="Chasing Change logo" class="w-14 sm:w-16 h-auto" />
-          <div class="min-w-0">
-            <p class="text-xs uppercase tracking-[0.25em] opacity-70 font-brand">Chasing Change</p>
-            <h1 class="text-2xl sm:text-3xl font-extrabold leading-tight font-heading">Macro Calculator</h1>
-            <p class="text-sm mt-1 italic opacity-80">Pursuing Purpose</p>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+      <!-- Header (cooler) -->
+      <header class="mb-6 sm:mb-10">
+        <div class="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-soft bg-white">
+          <div class="relative p-6 sm:p-8">
+            <!-- background flair -->
+            <div class="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-cc-outline/20 blur-3xl"></div>
+            <div class="absolute -bottom-28 -left-28 w-80 h-80 rounded-full bg-cc-text/10 blur-3xl"></div>
+
+            <div class="relative flex flex-col gap-6">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-4 min-w-0">
+                  <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-cc-outline/15 ring-1 ring-cc-outline/30 flex items-center justify-center shadow-glow">
+                    <img
+                      src="Chasing Change Logo2.png"
+                      alt="Chasing Change logo"
+                      class="w-10 sm:w-12 h-auto"
+                    />
+                  </div>
+
+                  <div class="min-w-0">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold bg-cc-text text-white">
+                        Chasing Change
+                      </span>
+                      <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold bg-cc-outline/20 ring-1 ring-cc-outline/30">
+                        Macro Calculator
+                      </span>
+                    </div>
+
+                    <h1 class="mt-2 text-2xl sm:text-4xl font-extrabold leading-tight font-heading">
+                      Build targets that actually fit your life.
+                    </h1>
+                    <p class="mt-2 text-sm sm:text-base opacity-80 max-w-2xl">
+                      Pick your goal, choose a realistic activity level, and get calories + macros in seconds.
+                      <span class="font-semibold">No fluff.</span> Just numbers you can execute.
+                    </p>
+
+                    <div class="mt-3 flex flex-wrap gap-2 text-xs sm:text-sm">
+                      <span class="inline-flex items-center gap-2 rounded-xl px-3 py-2 bg-black/5 ring-1 ring-black/5">
+                        <span class="w-2 h-2 rounded-full bg-cc-outline"></span> Fast + simple
+                      </span>
+                      <span class="inline-flex items-center gap-2 rounded-xl px-3 py-2 bg-black/5 ring-1 ring-black/5">
+                        <span class="w-2 h-2 rounded-full bg-cc-outline"></span> Goal-based macros
+                      </span>
+                      <span class="inline-flex items-center gap-2 rounded-xl px-3 py-2 bg-black/5 ring-1 ring-black/5">
+                        <span class="w-2 h-2 rounded-full bg-cc-outline"></span> US + Metric
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="hidden sm:block">
+                  <a
+                    href="https://tally.so/r/w5JXKE"
+                    target="_blank"
+                    rel="noreferrer"
+                    class="group inline-flex items-center gap-2 rounded-2xl px-5 py-3 text-sm font-extrabold
+                           bg-cc-text text-white hover:opacity-95 transition shadow-soft"
+                  >
+                    Apply for Coaching
+                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-white/10 ring-1 ring-white/15 group-hover:bg-white/15 transition">
+                      →
+                    </span>
+                  </a>
+                  <p class="mt-2 text-xs opacity-60 text-right">Limited spots • systems-based coaching</p>
+                </div>
+              </div>
+
+              <!-- Mobile CTA -->
+              <div class="sm:hidden">
+                <a
+                  href="https://tally.so/r/w5JXKE"
+                  target="_blank"
+                  rel="noreferrer"
+                  class="inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 text-sm font-extrabold
+                         bg-cc-text text-white hover:opacity-95 transition shadow-soft"
+                >
+                  Apply for Coaching →
+                </a>
+                <p class="mt-2 text-xs opacity-60 text-center">Limited spots • systems-based coaching</p>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <p class="mt-3 text-sm sm:text-base">
-          <span class="font-semibold">Build the body.</span> Build the art. Chase change.
-        </p>
-
-        <div class="mt-4">
-          <a
-            href="https://tally.so/r/w5JXKE"
-            target="_blank"
-            rel="noreferrer"
-            class="inline-flex w-full sm:w-auto items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold
-                   bg-cc-outline text-cc-text hover:opacity-90 transition shadow-outline"
-          >
-            Apply for Coaching →
-          </a>
         </div>
       </header>
 
@@ -93,38 +151,69 @@
       <main class="rounded-3xl bg-cc-card shadow-soft ring-1 ring-black/5 overflow-hidden">
         <div class="p-5 sm:p-8">
           <div class="flex items-start gap-3 mb-6">
-            <div
-              class="w-10 h-10 rounded-xl bg-cc-outline/15 ring-1 ring-cc-outline/40 flex items-center justify-center"
-            >
+            <div class="w-10 h-10 rounded-xl bg-cc-outline/15 ring-1 ring-cc-outline/40 flex items-center justify-center">
               <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" />
-                <path d="M9 6h6" />
-                <path d="M9 10h6" />
-                <path d="M9 14h2" />
-                <path d="M13 14h2" />
-                <path d="M9 18h2" />
-                <path d="M13 18h2" />
+                <path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+                <path d="M9 6h6"/>
+                <path d="M9 10h6"/>
+                <path d="M9 14h2"/>
+                <path d="M13 14h2"/>
+                <path d="M9 18h2"/>
+                <path d="M13 18h2"/>
               </svg>
             </div>
 
             <div>
               <h2 class="text-lg sm:text-xl font-bold font-heading">Set your targets</h2>
-              <p class="text-sm opacity-80">Enter your stats, pick your goal, and get macros in seconds.</p>
+              <p class="text-sm opacity-80">Fill this out once. Adjust goal + activity later.</p>
             </div>
           </div>
 
           <div class="space-y-5">
-            <!-- Body Weight -->
+            <!-- Units toggle -->
+            <div class="rounded-2xl p-4 bg-black/5 ring-1 ring-black/5">
+              <div class="flex items-center justify-between gap-3 flex-wrap">
+                <div>
+                  <p class="text-sm font-semibold">Units</p>
+                  <p class="text-xs opacity-70">Choose US (lbs / ft) or Metric (kg / cm).</p>
+                </div>
+                <div class="inline-flex rounded-2xl bg-white ring-1 ring-black/10 p-1">
+                  <button id="unitUS" type="button" class="unitBtn px-4 py-2 rounded-xl text-sm font-bold bg-cc-outline/20 ring-1 ring-cc-outline/30">
+                    US
+                  </button>
+                  <button id="unitMetric" type="button" class="unitBtn px-4 py-2 rounded-xl text-sm font-bold opacity-70 hover:opacity-100">
+                    Metric
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Weight -->
             <div>
-              <label class="block text-sm font-semibold mb-2">Body Weight (lbs)</label>
-              <input
-                id="weight"
-                type="number"
-                inputmode="decimal"
-                placeholder="e.g. 165"
-                class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
-                       focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
-              />
+              <label class="block text-sm font-semibold mb-2">Body Weight</label>
+
+              <div id="weightUSWrap">
+                <input
+                  id="weightLb"
+                  type="number"
+                  inputmode="decimal"
+                  placeholder="lbs (e.g. 165)"
+                  class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+                         focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+                />
+              </div>
+
+              <div id="weightMetricWrap" class="hidden">
+                <input
+                  id="weightKg"
+                  type="number"
+                  inputmode="decimal"
+                  placeholder="kg (e.g. 75)"
+                  class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+                         focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+                />
+              </div>
+
               <p id="weightError" class="hidden mt-2 text-sm text-red-600">Please enter a valid weight.</p>
             </div>
 
@@ -158,7 +247,8 @@
             <!-- Height -->
             <div>
               <label class="block text-sm font-semibold mb-2">Height</label>
-              <div class="grid grid-cols-2 gap-3">
+
+              <div id="heightUSWrap" class="grid grid-cols-2 gap-3">
                 <input
                   id="heightFt"
                   type="number"
@@ -176,6 +266,18 @@
                          focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
                 />
               </div>
+
+              <div id="heightMetricWrap" class="hidden">
+                <input
+                  id="heightCm"
+                  type="number"
+                  inputmode="decimal"
+                  placeholder="cm (e.g. 178)"
+                  class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+                         focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+                />
+              </div>
+
               <p id="heightError" class="hidden mt-2 text-sm text-red-600">Please enter a valid height.</p>
             </div>
 
@@ -187,12 +289,21 @@
                 class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
                        focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
               >
-                <option value="sedentary">Sedentary (little exercise)</option>
-                <option value="light">Light (1–3 days/wk)</option>
-                <option value="moderate" selected>Moderate (3–5 days/wk)</option>
-                <option value="active">Active (6–7 days/wk)</option>
-                <option value="veryActive">Very Active (hard training + active job)</option>
+                <option value="sedentary">Sedentary — desk job, <5k steps/day, little exercise</option>
+                <option value="light">Light — 5–7k steps/day + 1–3 workouts/week</option>
+                <option value="moderate" selected>Moderate — 7–10k steps/day + 3–5 workouts/week</option>
+                <option value="active">Active — 10–14k steps/day + 5–6 workouts/week</option>
+                <option value="veryActive">Very Active — 14k+ steps/day + hard training / physical job</option>
               </select>
+
+              <div class="mt-2 rounded-2xl p-4 bg-black/5 ring-1 ring-black/5 text-sm">
+                <p class="font-semibold mb-1">How to choose (quick rule):</p>
+                <ul class="list-disc list-inside opacity-90 space-y-1">
+                  <li>If your job is mostly sitting, start at <span class="font-semibold">Sedentary</span> or <span class="font-semibold">Light</span>.</li>
+                  <li>If you lift 3–5x/week and walk daily, <span class="font-semibold">Moderate</span> is usually right.</li>
+                  <li><span class="font-semibold">Active/Very Active</span> is for high steps + frequent training, not just “I go hard sometimes.”</li>
+                </ul>
+              </div>
             </div>
 
             <!-- Goal -->
@@ -221,6 +332,9 @@
                   Gain
                 </button>
               </div>
+              <p class="text-xs opacity-70 mt-2">
+                Note: Protein + fat targets will adjust by goal (cut/maintain/bulk), not just carbs.
+              </p>
             </div>
 
             <!-- Weekly Change -->
@@ -231,14 +345,15 @@
                 class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
                        focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
               ></select>
-              <p class="text-xs opacity-70 mt-2">Tip: If adherence is hard, go smaller and stay consistent.</p>
+              <p class="text-xs opacity-70 mt-2">If adherence is hard, go smaller and stay consistent.</p>
             </div>
 
             <!-- Calculate Button -->
             <button
               id="calcBtn"
               type="button"
-              class="w-full rounded-2xl py-4 font-bold bg-cc-outline text-cc-text hover:opacity-90 transition shadow-outline"
+              class="w-full rounded-2xl py-4 font-extrabold
+                     bg-cc-outline text-cc-text hover:opacity-90 transition shadow-outline"
             >
               Calculate Macros
             </button>
@@ -254,12 +369,11 @@
 
                 <p class="text-sm mt-2 opacity-80">
                   BMR: <span id="bmrOut">0</span> calories
-                  <span class="opacity-60">(Basal Metabolic Rate — calories your body burns at rest)</span>
+                  <span class="opacity-60">(at rest)</span>
                 </p>
-
                 <p class="text-sm mt-2 opacity-80">
                   TDEE: <span id="tdeeOut">0</span> calories
-                  <span class="opacity-60">(Total Daily Energy Expenditure — BMR × activity level)</span>
+                  <span class="opacity-60">(BMR × activity)</span>
                 </p>
               </div>
 
@@ -269,7 +383,7 @@
               >
                 <p class="font-semibold">⚠️ Protein capped</p>
                 <p class="mt-1">
-                  Protein was capped by calories (40%) or the 200g limit. Protein set to
+                  Protein was capped by calories (40%) or the 200g limit. Protein is
                   <span id="proteinPctOut">0</span>% of total calories.
                 </p>
               </div>
@@ -300,27 +414,39 @@
                 </div>
               </div>
 
+              <!-- Formula / Disclaimer style -->
               <div class="rounded-2xl p-4 text-sm ring-1 ring-black/10 bg-white">
-                <p class="font-bold mb-2 font-heading">Formula Used</p>
-                <ul class="space-y-1 list-disc list-inside opacity-90">
-                  <li>Protein: 1g per lb (capped at 40% of calories, max 200g)</li>
-                  <li>Fat: 0.35g per lb of body weight</li>
-                  <li>Carbs: Remaining calories</li>
-                </ul>
+                <div class="flex items-start gap-3">
+                  <div class="w-9 h-9 rounded-xl bg-black/5 ring-1 ring-black/5 flex items-center justify-center">
+                    <span class="text-lg">ℹ️</span>
+                  </div>
+                  <div>
+                    <p class="font-extrabold font-heading">Important note (read this)</p>
+                    <p class="mt-1 opacity-80">
+                      This is a starting estimate. Your real-world maintenance can be higher/lower. Track for 10–14 days
+                      and adjust by results.
+                    </p>
+                    <ul class="mt-3 space-y-1 list-disc list-inside opacity-90">
+                      <li><span class="font-semibold">Protein</span> is goal-based (cut/maintain/bulk) with caps for practicality.</li>
+                      <li><span class="font-semibold">Fat</span> is goal-based to support hormones + satiety.</li>
+                      <li><span class="font-semibold">Carbs</span> fill the remaining calories.</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
 
               <a
                 href="https://tally.so/r/w5JXKE"
                 target="_blank"
                 rel="noreferrer"
-                class="inline-flex w-full items-center justify-center rounded-2xl px-4 py-3
-                       text-sm font-bold bg-cc-text text-white hover:opacity-95 transition"
+                class="inline-flex w-full items-center justify-center rounded-2xl px-4 py-4
+                       text-sm font-extrabold bg-cc-text text-white hover:opacity-95 transition shadow-soft"
               >
                 Want this dialed in? Apply for coaching →
               </a>
             </div>
 
-            <p class="text-xs pt-4 text-center opacity-60">© 2026 Chasing Change — consistency beats intensity</p>
+            <p class="text-xs pt-4 text-center opacity-60">© 2026 Chasing Change — 1% better every day</p>
           </div>
         </div>
       </main>
@@ -329,18 +455,27 @@
     <script>
       // State
       let goal = "maintain";
+      let unit = "us"; // "us" | "metric"
 
       // Elements
       const sexEl = document.getElementById("sex");
       const ageEl = document.getElementById("age");
+
+      const weightUSWrap = document.getElementById("weightUSWrap");
+      const weightMetricWrap = document.getElementById("weightMetricWrap");
+      const weightLbEl = document.getElementById("weightLb");
+      const weightKgEl = document.getElementById("weightKg");
+
+      const heightUSWrap = document.getElementById("heightUSWrap");
+      const heightMetricWrap = document.getElementById("heightMetricWrap");
       const heightFtEl = document.getElementById("heightFt");
       const heightInEl = document.getElementById("heightIn");
+      const heightCmEl = document.getElementById("heightCm");
 
       const ageErrorEl = document.getElementById("ageError");
       const heightErrorEl = document.getElementById("heightError");
-
-      const weightEl = document.getElementById("weight");
       const weightErrorEl = document.getElementById("weightError");
+
       const activityEl = document.getElementById("activityLevel");
 
       const weeklyWrap = document.getElementById("weeklyWrap");
@@ -363,7 +498,6 @@
       const carbsShareOut = document.getElementById("carbsShareOut");
       const fatShareOut = document.getElementById("fatShareOut");
 
-      // Helpers
       const activityFactors = {
         sedentary: 1.2,
         light: 1.375,
@@ -372,10 +506,32 @@
         veryActive: 1.9,
       };
 
+      function show(el) { el.classList.remove("hidden"); }
+      function hide(el) { el.classList.add("hidden"); }
+
+      function setUnit(next) {
+        unit = next;
+
+        // Toggle buttons
+        const usBtn = document.getElementById("unitUS");
+        const metBtn = document.getElementById("unitMetric");
+
+        if (unit === "us") {
+          usBtn.className = "unitBtn px-4 py-2 rounded-xl text-sm font-bold bg-cc-outline/20 ring-1 ring-cc-outline/30";
+          metBtn.className = "unitBtn px-4 py-2 rounded-xl text-sm font-bold opacity-70 hover:opacity-100";
+          show(weightUSWrap); hide(weightMetricWrap);
+          show(heightUSWrap); hide(heightMetricWrap);
+        } else {
+          metBtn.className = "unitBtn px-4 py-2 rounded-xl text-sm font-bold bg-cc-outline/20 ring-1 ring-cc-outline/30";
+          usBtn.className = "unitBtn px-4 py-2 rounded-xl text-sm font-bold opacity-70 hover:opacity-100";
+          hide(weightUSWrap); show(weightMetricWrap);
+          hide(heightUSWrap); show(heightMetricWrap);
+        }
+      }
+
       function setGoal(newGoal) {
         goal = newGoal;
 
-        // Button styling
         document.querySelectorAll(".goalBtn").forEach((btn) => {
           btn.classList.remove("ring-2", "ring-cc-outline/70", "bg-cc-outline/15");
           btn.classList.add("ring-1", "ring-black/10", "bg-white");
@@ -391,23 +547,22 @@
         activeBtn.classList.remove("ring-1", "ring-black/10", "bg-white");
         activeBtn.classList.add("ring-2", "ring-cc-outline/70", "bg-cc-outline/15");
 
-        // Weekly selector behavior
         if (goal === "lose") {
-          weeklyWrap.classList.remove("hidden");
-          weeklyLabel.textContent = "Weight Loss per Week (lbs)";
+          show(weeklyWrap);
+          weeklyLabel.textContent = "Weight Loss per Week";
         } else if (goal === "gain") {
-          weeklyWrap.classList.remove("hidden");
-          weeklyLabel.textContent = "Weight Gain per Week (lbs)";
+          show(weeklyWrap);
+          weeklyLabel.textContent = "Weight Gain per Week";
         } else {
-          weeklyWrap.classList.add("hidden");
+          hide(weeklyWrap);
         }
       }
 
       function populateWeeklyOptions() {
-        // Values represent lbs/week.
-        const loseOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
+        // lbs/week
+        const values = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
         weeklyEl.innerHTML = "";
-        loseOptions.forEach((v) => {
+        values.forEach((v) => {
           const opt = document.createElement("option");
           opt.value = String(v);
           opt.textContent = `${v} lb / week`;
@@ -416,27 +571,37 @@
         weeklyEl.value = "1";
       }
 
-      function show(el) {
-        el.classList.remove("hidden");
-      }
-      function hide(el) {
-        el.classList.add("hidden");
+      function getInputsAsLbsAndInches() {
+        // Returns { weightLb, totalInches } or null on invalids (validation handled elsewhere)
+        let weightLb;
+        let totalInches;
+
+        if (unit === "us") {
+          weightLb = parseFloat(weightLbEl.value);
+          const ft = parseInt(heightFtEl.value, 10);
+          const inch = parseInt(heightInEl.value, 10);
+          totalInches = (ft || 0) * 12 + (inch || 0);
+        } else {
+          const weightKg = parseFloat(weightKgEl.value);
+          const heightCm = parseFloat(heightCmEl.value);
+          weightLb = weightKg * 2.2046226218;
+          totalInches = heightCm / 2.54;
+        }
+
+        return { weightLb, totalInches };
       }
 
       function calculate() {
-        // Reset errors
         hide(weightErrorEl);
         hide(ageErrorEl);
         hide(heightErrorEl);
 
-        const bodyWeight = parseFloat(weightEl.value);
         const age = parseInt(ageEl.value, 10);
-        const heightFt = parseInt(heightFtEl.value, 10);
-        const heightIn = parseInt(heightInEl.value, 10);
+        const { weightLb, totalInches } = getInputsAsLbsAndInches();
 
         let hasError = false;
 
-        if (!bodyWeight || bodyWeight <= 0) {
+        if (!weightLb || weightLb <= 0) {
           show(weightErrorEl);
           hasError = true;
         }
@@ -446,7 +611,6 @@
           hasError = true;
         }
 
-        const totalInches = (heightFt || 0) * 12 + (heightIn || 0);
         if (!totalInches || totalInches < 48 || totalInches > 84) {
           show(heightErrorEl);
           hasError = true;
@@ -454,8 +618,8 @@
 
         if (hasError) return;
 
-        // Unit conversions
-        const weightKg = bodyWeight * 0.45359237;
+        // Conversions for BMR
+        const weightKg = weightLb * 0.45359237;
         const heightCm = totalInches * 2.54;
 
         // Mifflin-St Jeor BMR
@@ -466,32 +630,38 @@
 
         const tdee = bmr * activityFactors[activityEl.value];
 
-        // Weekly change to daily calorie delta
-        const weeklyChangeNum = parseFloat(weeklyEl.value || "0"); // lbs/week
+        // Weekly change adjustment
+        const weeklyChangeLb = parseFloat(weeklyEl.value || "0");
         let targetCalories = tdee;
 
-        if (goal === "lose") targetCalories = tdee - weeklyChangeNum * 500; // ~3500/wk = 500/day per 1 lb/week
-        if (goal === "gain") targetCalories = tdee + weeklyChangeNum * 300; // softer surplus
+        if (goal === "lose") targetCalories = tdee - weeklyChangeLb * 500; // ~500/day per 1 lb/week
+        if (goal === "gain") targetCalories = tdee + weeklyChangeLb * 300;
 
-        // Don’t allow insanely low targets
+        // Keep targets sane
         targetCalories = Math.max(1200, targetCalories);
 
-        // Protein: 1g/lb, capped by calories rule AND hard cap (200g)
-        const maxProteinFromCalories = (targetCalories * 0.40) / 4;
+        // --- MACROS (goal-based so more than carbs changes) ---
+        // Protein multipliers (g/lb)
+        const proteinMult = goal === "lose" ? 1.0 : goal === "gain" ? 0.85 : 0.9;
+        // Fat multipliers (g/lb)
+        const fatMult = goal === "lose" ? 0.30 : goal === "gain" ? 0.40 : 0.35;
+
+        const maxProteinFromCalories = (targetCalories * 0.40) / 4; // cap protein at 40% calories
         const proteinCap = 200;
-        const protein = Math.min(bodyWeight, maxProteinFromCalories, proteinCap);
-        const proteinCapped = protein < bodyWeight;
 
-        // Fat: 0.35g/lb
-        const fat = bodyWeight * 0.35;
+        const proteinTarget = weightLb * proteinMult;
+        const protein = Math.min(proteinTarget, maxProteinFromCalories, proteinCap);
 
-        // Carbs: remaining calories
+        const proteinCapped = protein < proteinTarget;
+
+        const fat = weightLb * fatMult;
+
         const proteinCals = protein * 4;
         const fatCals = fat * 9;
         const carbCals = targetCalories - proteinCals - fatCals;
         const carbs = Math.max(0, carbCals / 4);
 
-        // Round
+        // Round outputs
         const caloriesR = Math.round(targetCalories);
         const bmrR = Math.round(bmr);
         const tdeeR = Math.round(tdee);
@@ -499,7 +669,6 @@
         const fatR = Math.round(fat);
         const carbsR = Math.round(carbs);
 
-        // Output
         caloriesOut.textContent = caloriesR;
         bmrOut.textContent = bmrR;
         tdeeOut.textContent = tdeeR;
@@ -507,7 +676,6 @@
         carbsOut.textContent = carbsR;
         fatOut.textContent = fatR;
 
-        // Shares
         const proteinPct = Math.round((protein * 4 / targetCalories) * 100);
         const proteinShare = Math.round((proteinR * 4 / caloriesR) * 100);
         const carbsShare = Math.round((carbsR * 4 / caloriesR) * 100);
@@ -527,10 +695,15 @@
       // Init
       populateWeeklyOptions();
       setGoal("maintain");
+      setUnit("us");
+
+      document.getElementById("unitUS").addEventListener("click", () => setUnit("us"));
+      document.getElementById("unitMetric").addEventListener("click", () => setUnit("metric"));
 
       document.getElementById("goalLose").addEventListener("click", () => setGoal("lose"));
       document.getElementById("goalMaintain").addEventListener("click", () => setGoal("maintain"));
       document.getElementById("goalGain").addEventListener("click", () => setGoal("gain"));
+
       document.getElementById("calcBtn").addEventListener("click", calculate);
     </script>
   </body>
