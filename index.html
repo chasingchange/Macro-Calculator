@@ -773,7 +773,11 @@
           opt.textContent = `${v} lb / week`;
           weeklyEl.appendChild(opt);
         });
-        weeklyEl.value = values.includes(1) ? "1" : String(values[0]);
+        if (values.map(String).includes(previousValue)) {
+          weeklyEl.value = previousValue;
+        } else {
+          weeklyEl.value = values.includes(1) ? "1" : String(values[0]);
+        }
       }
 
       function getInputsAsLbsAndInches() {
@@ -890,7 +894,6 @@
         // Weekly change adjustment
         const weeklyChangeLb = parseFloat(weeklyEl.value || "0");
         const derivedGoal = inferGoalFromTargets(weightLb, bodyFat, targetWeightLb, targetBodyFat);
-        updateWeeklyByGoal(derivedGoal);
         let targetCalories = tdee;
 
         if (derivedGoal === "lose") targetCalories = tdee - weeklyChangeLb * 500; // ~500/day per 1 lb/week
