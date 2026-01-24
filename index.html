@@ -773,11 +773,7 @@
           opt.textContent = `${v} lb / week`;
           weeklyEl.appendChild(opt);
         });
-        if (values.map(String).includes(previousValue)) {
-          weeklyEl.value = previousValue;
-        } else {
-          weeklyEl.value = values.includes(1) ? "1" : String(values[0]);
-        }
+        weeklyEl.value = values.includes(1) ? "1" : String(values[0]);
       }
 
       function getInputsAsLbsAndInches() {
