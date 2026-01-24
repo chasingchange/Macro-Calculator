@@ -458,6 +458,9 @@
 
                   ></select>
                   <p class="text-xs opacity-70 mt-2">If adherence is hard, go smaller and stay consistent.</p>
+                  <p id="gainNote" class="hidden text-xs text-amber-700 mt-2">
+                    For best results, aim to gain no more than 1 lb per week to limit fat gain.
+                  </p>
                 </div>
 
                 <!-- Calculate -->
@@ -609,6 +612,23 @@
       const weeklyWrap = document.getElementById("weeklyWrap");
       const weeklyLabel = document.getElementById("weeklyLabel");
       const weeklyEl = document.getElementById("weeklyChange");
+      const gainNote = document.getElementById("gainNote");
+
+      const goalModeStandardBtn = document.getElementById("goalModeStandard");
+      const goalModeWeightBtn = document.getElementById("goalModeWeight");
+      const goalModeBodyFatBtn = document.getElementById("goalModeBodyFat");
+      const standardGoalWrap = document.getElementById("standardGoalWrap");
+      const targetWeightWrap = document.getElementById("targetWeightWrap");
+      const targetBodyFatWrap = document.getElementById("targetBodyFatWrap");
+
+      const targetWeightUSWrap = document.getElementById("targetWeightUSWrap");
+      const targetWeightMetricWrap = document.getElementById("targetWeightMetricWrap");
+      const targetWeightLbEl = document.getElementById("targetWeightLb");
+      const targetWeightKgEl = document.getElementById("targetWeightKg");
+      const targetWeightErrorEl = document.getElementById("targetWeightError");
+
+      const targetBodyFatEl = document.getElementById("targetBodyFat");
+      const targetBodyFatErrorEl = document.getElementById("targetBodyFatError");
 
       const goalModeStandardBtn = document.getElementById("goalModeStandard");
       const goalModeWeightBtn = document.getElementById("goalModeWeight");
@@ -682,11 +702,16 @@
         if (goalValue === "lose") {
           show(weeklyWrap);
           weeklyLabel.textContent = "Weight Loss per Week";
+          hide(gainNote);
+          populateWeeklyOptions([0.25, 0.5, 0.75, 1, 1.25, 1.5, 2]);
         } else if (goalValue === "gain") {
           show(weeklyWrap);
           weeklyLabel.textContent = "Weight Gain per Week";
+          show(gainNote);
+          populateWeeklyOptions([0.25, 0.5, 0.75, 1]);
         } else {
           hide(weeklyWrap);
+          hide(gainNote);
         }
       }
 
@@ -743,8 +768,7 @@
         }
       }
 
-      function populateWeeklyOptions() {
-        const values = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
+      function populateWeeklyOptions(values = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2]) {
         weeklyEl.innerHTML = "";
         values.forEach((v) => {
           const opt = document.createElement("option");
@@ -752,7 +776,7 @@
           opt.textContent = `${v} lb / week`;
           weeklyEl.appendChild(opt);
         });
-        weeklyEl.value = "1";
+        weeklyEl.value = values.includes(1) ? "1" : String(values[0]);
       }
 
       function getInputsAsLbsAndInches() {
@@ -964,7 +988,6 @@ const proteinPerLb =
       }
 
       // Init
-      populateWeeklyOptions();
       setGoal("maintain");
       setGoalMode("standard");
       setUnit("us");
