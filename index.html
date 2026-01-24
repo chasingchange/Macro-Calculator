@@ -630,22 +630,6 @@
       const targetBodyFatEl = document.getElementById("targetBodyFat");
       const targetBodyFatErrorEl = document.getElementById("targetBodyFatError");
 
-      const goalModeStandardBtn = document.getElementById("goalModeStandard");
-      const goalModeWeightBtn = document.getElementById("goalModeWeight");
-      const goalModeBodyFatBtn = document.getElementById("goalModeBodyFat");
-      const standardGoalWrap = document.getElementById("standardGoalWrap");
-      const targetWeightWrap = document.getElementById("targetWeightWrap");
-      const targetBodyFatWrap = document.getElementById("targetBodyFatWrap");
-
-      const targetWeightUSWrap = document.getElementById("targetWeightUSWrap");
-      const targetWeightMetricWrap = document.getElementById("targetWeightMetricWrap");
-      const targetWeightLbEl = document.getElementById("targetWeightLb");
-      const targetWeightKgEl = document.getElementById("targetWeightKg");
-      const targetWeightErrorEl = document.getElementById("targetWeightError");
-
-      const targetBodyFatEl = document.getElementById("targetBodyFat");
-      const targetBodyFatErrorEl = document.getElementById("targetBodyFatError");
-
       const resultsEl = document.getElementById("results");
       const proteinCapBox = document.getElementById("proteinCapBox");
 
@@ -715,6 +699,18 @@
         }
       }
 
+      function updateWeeklyByTargets() {
+        if (goalMode === "standard") return;
+
+        const { weightLb } = getInputsAsLbsAndInches();
+        const bodyFat = parseFloat(bodyFatEl.value);
+        const targetWeightLb = getTargetWeightLbs();
+        const targetBodyFat = parseFloat(targetBodyFatEl.value);
+        const inferredGoal = inferGoalFromTargets(weightLb, bodyFat, targetWeightLb, targetBodyFat);
+
+        updateWeeklyByGoal(inferredGoal);
+      }
+
       function setGoal(newGoal) {
         goal = newGoal;
 
@@ -757,14 +753,14 @@
           hide(standardGoalWrap);
           show(targetWeightWrap);
           hide(targetBodyFatWrap);
-          hide(weeklyWrap);
+          updateWeeklyByTargets();
         } else {
           goalModeBodyFatBtn.classList.add("bg-cc-outline/20", "ring-1", "ring-cc-outline/30");
           goalModeBodyFatBtn.classList.remove("opacity-70");
           hide(standardGoalWrap);
           hide(targetWeightWrap);
           show(targetBodyFatWrap);
-          hide(weeklyWrap);
+          updateWeeklyByTargets();
         }
       }
 
@@ -1001,6 +997,9 @@ const proteinPerLb =
       goalModeStandardBtn.addEventListener("click", () => setGoalMode("standard"));
       goalModeWeightBtn.addEventListener("click", () => setGoalMode("targetWeight"));
       goalModeBodyFatBtn.addEventListener("click", () => setGoalMode("targetBodyFat"));
+      [weightLbEl, weightKgEl, bodyFatEl, targetWeightLbEl, targetWeightKgEl, targetBodyFatEl].forEach((el) => {
+        el.addEventListener("input", updateWeeklyByTargets);
+      });
 
       document.getElementById("calcBtn").addEventListener("click", calculate);
     </script>
