@@ -217,6 +217,22 @@
                   <p id="weightError" class="hidden mt-2 text-sm text-red-600">Please enter a valid weight.</p>
                 </div>
 
+                <!-- Optional Body Fat -->
+                <div>
+                  <label class="block text-sm font-semibold mb-2">Current Body Fat % (optional)</label>
+                  <input
+                    id="bodyFat"
+                    type="number"
+                    inputmode="decimal"
+                    placeholder="e.g. 22"
+                    class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+                           focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+                  />
+                  <p id="bodyFatError" class="hidden mt-2 text-sm text-red-600">
+                    Enter a valid body fat % (3–70).
+                  </p>
+                </div>
+
                 <!-- Sex + Age -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -320,32 +336,112 @@
                 <!-- Goal -->
                 <div>
                   <label class="block text-sm font-semibold mb-2">Goal</label>
-                  <div class="grid grid-cols-3 gap-3">
-                    <button
-                      id="goalLose"
-                      type="button"
-                      class="goalBtn rounded-xl py-3 font-bold ring-1 ring-black/10 bg-white hover:opacity-90 transition"
-                    >
-                      Lose
-                    </button>
-                    <button
-                      id="goalMaintain"
-                      type="button"
-                      class="goalBtn rounded-xl py-3 font-bold ring-2 ring-cc-outline/70 bg-cc-outline/15 hover:opacity-90 transition"
-                    >
-                      Maintain
-                    </button>
-                    <button
-                      id="goalGain"
-                      type="button"
-                      class="goalBtn rounded-xl py-3 font-bold ring-1 ring-black/10 bg-white hover:opacity-90 transition"
-                    >
-                      Gain
-                    </button>
+                  <div class="rounded-2xl p-4 bg-black/5 ring-1 ring-black/5">
+                    <div class="flex items-center justify-between gap-3 flex-wrap">
+                      <div>
+                        <p class="text-sm font-semibold">Goal Type</p>
+                        <p class="text-xs opacity-70">Choose a standard goal or target a specific outcome.</p>
+                      </div>
+                      <div class="inline-flex rounded-2xl bg-white ring-1 ring-black/10 p-1">
+                        <button
+                          id="goalModeStandard"
+                          type="button"
+                          class="goalModeBtn px-4 py-2 rounded-xl text-sm font-bold bg-cc-outline/20 ring-1 ring-cc-outline/30"
+                        >
+                          Standard
+                        </button>
+                        <button
+                          id="goalModeWeight"
+                          type="button"
+                          class="goalModeBtn px-4 py-2 rounded-xl text-sm font-bold opacity-70 hover:opacity-100"
+                        >
+                          Target Weight
+                        </button>
+                        <button
+                          id="goalModeBodyFat"
+                          type="button"
+                          class="goalModeBtn px-4 py-2 rounded-xl text-sm font-bold opacity-70 hover:opacity-100"
+                        >
+                          Target Body Fat %
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <p class="text-xs opacity-70 mt-2">
-                    Note: Protein + fat targets will adjust by goal (cut/maintain/bulk), not just carbs.
-                  </p>
+
+                  <div id="standardGoalWrap" class="mt-4">
+                    <div class="grid grid-cols-3 gap-3">
+                      <button
+                        id="goalLose"
+                        type="button"
+                        class="goalBtn rounded-xl py-3 font-bold ring-1 ring-black/10 bg-white hover:opacity-90 transition"
+                      >
+                        Lose
+                      </button>
+                      <button
+                        id="goalMaintain"
+                        type="button"
+                        class="goalBtn rounded-xl py-3 font-bold ring-2 ring-cc-outline/70 bg-cc-outline/15 hover:opacity-90 transition"
+                      >
+                        Maintain
+                      </button>
+                      <button
+                        id="goalGain"
+                        type="button"
+                        class="goalBtn rounded-xl py-3 font-bold ring-1 ring-black/10 bg-white hover:opacity-90 transition"
+                      >
+                        Gain
+                      </button>
+                    </div>
+                    <p class="text-xs opacity-70 mt-2">
+                      Note: Protein + fat targets will adjust by goal (cut/maintain/bulk), not just carbs.
+                    </p>
+                  </div>
+
+                  <div id="targetWeightWrap" class="hidden mt-4">
+                    <label class="block text-sm font-semibold mb-2">Target Body Weight</label>
+                    <div id="targetWeightUSWrap">
+                      <input
+                        id="targetWeightLb"
+                        type="number"
+                        inputmode="decimal"
+                        placeholder="lbs (e.g. 155)"
+                        class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+                               focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+                      />
+                    </div>
+                    <div id="targetWeightMetricWrap" class="hidden">
+                      <input
+                        id="targetWeightKg"
+                        type="number"
+                        inputmode="decimal"
+                        placeholder="kg (e.g. 70)"
+                        class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+                               focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+                      />
+                    </div>
+                    <p id="targetWeightError" class="hidden mt-2 text-sm text-red-600">
+                      Please enter a valid target weight.
+                    </p>
+                    <p class="text-xs opacity-70 mt-2">We’ll infer lose/maintain/gain based on your target.</p>
+                  </div>
+
+                  <div id="targetBodyFatWrap" class="hidden mt-4">
+                    <label class="block text-sm font-semibold mb-2">Target Body Fat %</label>
+                    <input
+                      id="targetBodyFat"
+                      type="number"
+                      inputmode="decimal"
+                      placeholder="e.g. 18"
+                      class="w-full px-4 py-3 rounded-xl bg-white ring-1 ring-black/10
+                             focus:ring-2 focus:ring-cc-outline/70 focus:outline-none transition"
+                    />
+                    <p id="targetBodyFatError" class="hidden mt-2 text-sm text-red-600">
+                      Enter a valid target body fat % (3–70).
+                    </p>
+                    <p class="text-xs opacity-70 mt-2">
+                      Requires your current body fat % above to estimate direction.
+                    </p>
+                  </div>
                 </div>
 
                 <!-- Weekly Change -->
@@ -485,6 +581,7 @@
       // State
       let goal = "maintain";
       let unit = "us"; // "us" | "metric"
+      let goalMode = "standard"; // "standard" | "targetWeight" | "targetBodyFat"
 
       // Elements
       const sexEl = document.getElementById("sex");
@@ -494,6 +591,7 @@
       const weightMetricWrap = document.getElementById("weightMetricWrap");
       const weightLbEl = document.getElementById("weightLb");
       const weightKgEl = document.getElementById("weightKg");
+      const bodyFatEl = document.getElementById("bodyFat");
 
       const heightUSWrap = document.getElementById("heightUSWrap");
       const heightMetricWrap = document.getElementById("heightMetricWrap");
@@ -504,12 +602,29 @@
       const ageErrorEl = document.getElementById("ageError");
       const heightErrorEl = document.getElementById("heightError");
       const weightErrorEl = document.getElementById("weightError");
+      const bodyFatErrorEl = document.getElementById("bodyFatError");
 
       const activityEl = document.getElementById("activityLevel");
 
       const weeklyWrap = document.getElementById("weeklyWrap");
       const weeklyLabel = document.getElementById("weeklyLabel");
       const weeklyEl = document.getElementById("weeklyChange");
+
+      const goalModeStandardBtn = document.getElementById("goalModeStandard");
+      const goalModeWeightBtn = document.getElementById("goalModeWeight");
+      const goalModeBodyFatBtn = document.getElementById("goalModeBodyFat");
+      const standardGoalWrap = document.getElementById("standardGoalWrap");
+      const targetWeightWrap = document.getElementById("targetWeightWrap");
+      const targetBodyFatWrap = document.getElementById("targetBodyFatWrap");
+
+      const targetWeightUSWrap = document.getElementById("targetWeightUSWrap");
+      const targetWeightMetricWrap = document.getElementById("targetWeightMetricWrap");
+      const targetWeightLbEl = document.getElementById("targetWeightLb");
+      const targetWeightKgEl = document.getElementById("targetWeightKg");
+      const targetWeightErrorEl = document.getElementById("targetWeightError");
+
+      const targetBodyFatEl = document.getElementById("targetBodyFat");
+      const targetBodyFatErrorEl = document.getElementById("targetBodyFatError");
 
       const resultsEl = document.getElementById("results");
       const proteinCapBox = document.getElementById("proteinCapBox");
@@ -553,11 +668,25 @@
           metBtn.className = "unitBtn px-4 py-2 rounded-xl text-sm font-bold opacity-70 hover:opacity-100";
           show(weightUSWrap); hide(weightMetricWrap);
           show(heightUSWrap); hide(heightMetricWrap);
+          show(targetWeightUSWrap); hide(targetWeightMetricWrap);
         } else {
           metBtn.className = "unitBtn px-4 py-2 rounded-xl text-sm font-bold bg-cc-outline/20 ring-1 ring-cc-outline/30";
           usBtn.className = "unitBtn px-4 py-2 rounded-xl text-sm font-bold opacity-70 hover:opacity-100";
           hide(weightUSWrap); show(weightMetricWrap);
           hide(heightUSWrap); show(heightMetricWrap);
+          hide(targetWeightUSWrap); show(targetWeightMetricWrap);
+        }
+      }
+
+      function updateWeeklyByGoal(goalValue) {
+        if (goalValue === "lose") {
+          show(weeklyWrap);
+          weeklyLabel.textContent = "Weight Loss per Week";
+        } else if (goalValue === "gain") {
+          show(weeklyWrap);
+          weeklyLabel.textContent = "Weight Gain per Week";
+        } else {
+          hide(weeklyWrap);
         }
       }
 
@@ -579,13 +708,37 @@
         activeBtn.classList.remove("ring-1", "ring-black/10", "bg-white");
         activeBtn.classList.add("ring-2", "ring-cc-outline/70", "bg-cc-outline/15");
 
-        if (goal === "lose") {
-          show(weeklyWrap);
-          weeklyLabel.textContent = "Weight Loss per Week";
-        } else if (goal === "gain") {
-          show(weeklyWrap);
-          weeklyLabel.textContent = "Weight Gain per Week";
+        updateWeeklyByGoal(goal);
+      }
+
+      function setGoalMode(mode) {
+        goalMode = mode;
+
+        [goalModeStandardBtn, goalModeWeightBtn, goalModeBodyFatBtn].forEach((btn) => {
+          btn.classList.remove("bg-cc-outline/20", "ring-1", "ring-cc-outline/30");
+          btn.classList.add("opacity-70");
+        });
+
+        if (goalMode === "standard") {
+          goalModeStandardBtn.classList.add("bg-cc-outline/20", "ring-1", "ring-cc-outline/30");
+          goalModeStandardBtn.classList.remove("opacity-70");
+          show(standardGoalWrap);
+          hide(targetWeightWrap);
+          hide(targetBodyFatWrap);
+          updateWeeklyByGoal(goal);
+        } else if (goalMode === "targetWeight") {
+          goalModeWeightBtn.classList.add("bg-cc-outline/20", "ring-1", "ring-cc-outline/30");
+          goalModeWeightBtn.classList.remove("opacity-70");
+          hide(standardGoalWrap);
+          show(targetWeightWrap);
+          hide(targetBodyFatWrap);
+          hide(weeklyWrap);
         } else {
+          goalModeBodyFatBtn.classList.add("bg-cc-outline/20", "ring-1", "ring-cc-outline/30");
+          goalModeBodyFatBtn.classList.remove("opacity-70");
+          hide(standardGoalWrap);
+          hide(targetWeightWrap);
+          show(targetBodyFatWrap);
           hide(weeklyWrap);
         }
       }
@@ -621,13 +774,43 @@
         return { weightLb, totalInches };
       }
 
+      function getTargetWeightLbs() {
+        if (unit === "us") {
+          return parseFloat(targetWeightLbEl.value);
+        }
+        const targetWeightKg = parseFloat(targetWeightKgEl.value);
+        return targetWeightKg * 2.2046226218;
+      }
+
+      function inferGoalFromTargets(currentWeightLb, currentBodyFat, targetWeightLb, targetBodyFat) {
+        if (goalMode === "targetWeight" && targetWeightLb) {
+          if (targetWeightLb < currentWeightLb) return "lose";
+          if (targetWeightLb > currentWeightLb) return "gain";
+          return "maintain";
+        }
+
+        if (goalMode === "targetBodyFat" && targetBodyFat && currentBodyFat) {
+          if (targetBodyFat < currentBodyFat) return "lose";
+          if (targetBodyFat > currentBodyFat) return "gain";
+          return "maintain";
+        }
+
+        return goal;
+      }
+
       function calculate() {
         hide(weightErrorEl);
         hide(ageErrorEl);
         hide(heightErrorEl);
+        hide(bodyFatErrorEl);
+        hide(targetWeightErrorEl);
+        hide(targetBodyFatErrorEl);
 
         const age = parseInt(ageEl.value, 10);
         const { weightLb, totalInches } = getInputsAsLbsAndInches();
+        const bodyFat = parseFloat(bodyFatEl.value);
+        const targetWeightLb = getTargetWeightLbs();
+        const targetBodyFat = parseFloat(targetBodyFatEl.value);
 
         let hasError = false;
 
@@ -646,6 +829,29 @@
           hasError = true;
         }
 
+        if (bodyFatEl.value && (isNaN(bodyFat) || bodyFat < 3 || bodyFat > 70)) {
+          show(bodyFatErrorEl);
+          hasError = true;
+        }
+
+        if (goalMode === "targetWeight") {
+          if (!targetWeightLb || targetWeightLb <= 0) {
+            show(targetWeightErrorEl);
+            hasError = true;
+          }
+        }
+
+        if (goalMode === "targetBodyFat") {
+          if (!targetBodyFat || targetBodyFat < 3 || targetBodyFat > 70) {
+            show(targetBodyFatErrorEl);
+            hasError = true;
+          }
+          if (!bodyFat || bodyFat < 3 || bodyFat > 70) {
+            show(bodyFatErrorEl);
+            hasError = true;
+          }
+        }
+
         if (hasError) return;
 
         // Conversions for BMR
@@ -662,10 +868,12 @@
 
         // Weekly change adjustment
         const weeklyChangeLb = parseFloat(weeklyEl.value || "0");
+        const derivedGoal = inferGoalFromTargets(weightLb, bodyFat, targetWeightLb, targetBodyFat);
+        updateWeeklyByGoal(derivedGoal);
         let targetCalories = tdee;
 
-        if (goal === "lose") targetCalories = tdee - weeklyChangeLb * 500; // ~500/day per 1 lb/week
-        if (goal === "gain") targetCalories = tdee + weeklyChangeLb * 300;
+        if (derivedGoal === "lose") targetCalories = tdee - weeklyChangeLb * 500; // ~500/day per 1 lb/week
+        if (derivedGoal === "gain") targetCalories = tdee + weeklyChangeLb * 300;
 
         // Daily minimum calories (Male 1500 / Female 1200) + warning
         const minCalories = isMale ? 1500 : 1200;
@@ -685,8 +893,8 @@
         // --- MACROS ---
         // Protein priority: ~1g/lb+, capped by 180g OR 35% calories (whichever comes first)
 const proteinPerLb =
-  goal === "lose" ? 1.10 :
-  goal === "gain" ? 1.10 :  // or 1.10 if you want
+  derivedGoal === "lose" ? 1.10 :
+  derivedGoal === "gain" ? 1.10 :  // or 1.10 if you want
   1.00;
         const proteinTarget = weightLb * proteinPerLb;
 
@@ -697,7 +905,7 @@ const proteinPerLb =
         const proteinCapped = protein < proteinTarget;
 
         // Fat: % calories + minimum floor
-        const fatPct = goal === "lose" ? 0.25 : goal === "gain" ? 0.30 : 0.28;
+        const fatPct = derivedGoal === "lose" ? 0.25 : derivedGoal === "gain" ? 0.30 : 0.28;
         const fatMin = 45;
         const fatCalTarget = targetCalories * fatPct;
 
@@ -758,6 +966,7 @@ const proteinPerLb =
       // Init
       populateWeeklyOptions();
       setGoal("maintain");
+      setGoalMode("standard");
       setUnit("us");
 
       document.getElementById("unitUS").addEventListener("click", () => setUnit("us"));
@@ -766,6 +975,9 @@ const proteinPerLb =
       document.getElementById("goalLose").addEventListener("click", () => setGoal("lose"));
       document.getElementById("goalMaintain").addEventListener("click", () => setGoal("maintain"));
       document.getElementById("goalGain").addEventListener("click", () => setGoal("gain"));
+      goalModeStandardBtn.addEventListener("click", () => setGoalMode("standard"));
+      goalModeWeightBtn.addEventListener("click", () => setGoalMode("targetWeight"));
+      goalModeBodyFatBtn.addEventListener("click", () => setGoalMode("targetBodyFat"));
 
       document.getElementById("calcBtn").addEventListener("click", calculate);
     </script>
